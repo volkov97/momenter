@@ -1,21 +1,21 @@
-const path = require("path");
+const path = require('path');
 
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = ({ mode }) => {
   return {
     mode,
-    entry: "src/index.tsx",
+    entry: 'src/index.tsx',
     output: {
-      path: path.resolve(__dirname, "public"),
-      filename: "bundle.js"
+      path: path.resolve(__dirname, 'public'),
+      filename: 'bundle.js',
     },
     resolve: {
       alias: {
-        src: path.resolve(__dirname, "src")
+        src: path.resolve(__dirname, 'src'),
       },
-      extensions: [".ts", ".tsx", ".js", ".jsx"]
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     module: {
       rules: [
@@ -23,24 +23,24 @@ module.exports = ({ mode }) => {
           test: /\.tsx?$/,
           use: [
             {
-              loader: "ts-loader",
+              loader: 'ts-loader',
               options: {
-                transpileOnly: true
-              }
-            }
-          ]
-        }
-      ]
+                transpileOnly: true,
+              },
+            },
+          ],
+        },
+      ],
     },
     plugins: [
       new ForkTsCheckerWebpackPlugin(),
       new HtmlWebpackPlugin({
-        template: "src/index.html"
-      })
+        template: 'src/index.html',
+      }),
     ],
     devServer: {
-      contentBase: path.join(__dirname, "public"),
-      port: 3000
-    }
+      contentBase: path.join(__dirname, 'public'),
+      port: 3000,
+    },
   };
 };
