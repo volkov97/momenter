@@ -10,6 +10,7 @@
     "noImplicitAny": true,
     "target": "es2015",
     "module": "es2015",
+    "jsx": "react",
     "strict": true
   },
   "include": ["src/**/*"],
