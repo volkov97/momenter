@@ -1,6 +1,7 @@
 import babel from "rollup-plugin-babel";
 import resolve from "rollup-plugin-node-resolve";
 import html from 'rollup-plugin-bundle-html';
+import serve from 'rollup-plugin-serve';
 
 const extensions = [".ts", ".tsx"];
 
@@ -20,6 +21,10 @@ export default {
         template: 'src/index.html',
         dest: "public",
         filename: 'index.html'
+    }),
+    serve({
+        contentBase: 'public',
+        port: 3000,
     })
   ]
 };

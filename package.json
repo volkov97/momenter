@@ -4,6 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
+    "start": "npm run dev",
+    "dev": "rollup -c -w",
     "types": "tsc --noEmit",
     "types:watch": "npm run type-check -- --watch",
     "build": "npm run types && rollup -c"
@@ -26,6 +28,7 @@
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-bundle-html": "^0.2.1",
     "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-serve": "^1.0.1",
     "typescript": "^3.5.3"
   }
 }
