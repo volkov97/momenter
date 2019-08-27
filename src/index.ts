@@ -23,7 +23,7 @@ startButton.addEventListener('click', () => {
   function renderTime() {
     const currentTime = Date.now();
     const { h, m, s } = getTimeParts(date.getTime() - currentTime, 'h');
-    const prefixTimePart = (t: number) => (t > 9 ? t : `0${s}`);
+    const prefixTimePart = (t: number) => (t < 10 ? `0${t}` : t);
 
     const timeString = `${h}:${prefixTimePart(m)}:${prefixTimePart(s)}`;
 
