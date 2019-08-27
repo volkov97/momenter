@@ -7,8 +7,21 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="root" class="red">
-      <div id="counterEl">100</div>
+    <div id="root">
+      <div class="screen screen_configuraton visible">
+        <div class="controls">
+          <div class="controls__input">
+            <input type="text" class="moment-input" placeholder="DD.MM.YYYY HH:MM">
+          </div>
+          <div class="controls__button">
+            <button class="controls__button_start">Start</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen screen_countdown visible">
+        <div class="countdown-value"></div>
+      </div>
     </div>
 
     <!-- Yandex.Metrika counter -->
