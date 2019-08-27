@@ -1,5 +1,6 @@
 const path = require('path');
 
+const tsImportPluginFactory = require('ts-import-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
@@ -11,7 +12,7 @@ module.exports = ({ mode }) => {
 
   return {
     mode,
-    entry: 'src/index.ts',
+    entry: 'src/index.tsx',
     output: {
       path: path.resolve(__dirname, 'public'),
       filename: 'bundle.js',
@@ -30,6 +31,15 @@ module.exports = ({ mode }) => {
             {
               loader: 'ts-loader',
               options: {
+                getCustomTransformers: () => ({
+                  before: [
+                    tsImportPluginFactory({
+                      libraryName: 'antd',
+                      libraryDirectory: 'es',
+                      style: true,
+                    }),
+                  ],
+                }),
                 transpileOnly: true,
               },
             },
@@ -38,9 +48,18 @@ module.exports = ({ mode }) => {
         {
           test: /\.less$/,
           use: [
-            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-            'css-loader',
-            'less-loader',
+            {
+              loader: isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+            },
+            {
+              loader: 'css-loader',
+            },
+            {
+              loader: 'less-loader',
+              options: {
+                javascriptEnabled: true,
+              },
+            },
           ],
         },
       ],
@@ -58,6 +77,7 @@ module.exports = ({ mode }) => {
     devServer: {
       contentBase: path.join(__dirname, 'public'),
       port: 3000,
+      historyApiFallback: true,
     },
   };
 };
