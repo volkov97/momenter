@@ -4,22 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <title>Momenter - online countdown</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="root">
       <div class="screen screen_configuraton visible">
-        <div class="controls">
-          <div class="controls__input">
-            <input type="text" class="moment-input" placeholder="DD.MM.YYYY HH:MM">
+        <div class="content">
+          <div class="info">
+            <h1 class="info__header">Online countdown</h1>
+            <div class="info__content">
+              You are waiting for something? See the counter tick down to this event.
+              <br />
+              Just write date and time to the input below and hit start button.
+            </div>
           </div>
-          <div class="controls__button">
-            <button class="controls__button_start">Start</button>
+          <div class="controls">
+            <div class="controls__input">
+              <input type="text" class="moment-input" placeholder="DD.MM.YYYY HH:MM" />
+            </div>
+            <div class="controls__button">
+              <button class="controls__button_start">Start</button>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="screen screen_countdown visible">
+      <div class="screen screen_countdown">
         <div class="countdown-value"></div>
       </div>
     </div>
