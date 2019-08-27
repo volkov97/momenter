@@ -25,7 +25,10 @@ startButton.addEventListener('click', () => {
     const { h, m, s } = getTimeParts(date.getTime() - currentTime, 'h');
     const prefixTimePart = (t: number) => (t > 9 ? t : `0${s}`);
 
-    countdownElement.innerText = `${h}:${prefixTimePart(m)}:${prefixTimePart(s)}`;
+    const timeString = `${h}:${prefixTimePart(m)}:${prefixTimePart(s)}`;
+
+    document.title = timeString;
+    countdownElement.innerText = timeString;
   }
 
   renderTime();
