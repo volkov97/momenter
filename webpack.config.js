@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 
 const tsImportPluginFactory = require('ts-import-plugin');
@@ -70,6 +71,7 @@ module.exports = ({ mode }) => {
       new HtmlWebpackPlugin({
         template: 'src/index.html',
       }),
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ].filter(Boolean),
     optimization: {
       minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
