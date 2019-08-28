@@ -7,7 +7,7 @@ import { App } from './App';
 
 WebFont.load({
   google: {
-    families: ['Open Sans:300,400,700:latin', 'sans-serif'],
+    families: ['Roboto:300,400,500,700:latin', 'sans-serif'],
   },
 });
 

@@ -15,7 +15,7 @@ export const GlobalStyles = createGlobalStyle`
     height: 100%;
     min-height: 100%;
 
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     color: #393e42;
   }
