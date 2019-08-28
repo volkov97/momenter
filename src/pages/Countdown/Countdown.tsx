@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import ym from 'react-yandex-metrika';
 import useReactRouter from 'use-react-router';
 import { useTimer } from 'react-compound-timer';
 import queryString from 'query-string';
@@ -24,6 +25,10 @@ export const Countdown: React.FC = () => {
   useEffect(() => {
     document.title = valueString;
   }, [valueString]);
+
+  useEffect(() => {
+    ym('params', { 'countdown-param': parseInt(ts as string) });
+  }, []);
 
   return <Wrap>{valueString}</Wrap>;
 };

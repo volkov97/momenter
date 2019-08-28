@@ -1,4 +1,5 @@
 import React from 'react';
+import ym from 'react-yandex-metrika';
 import useReactRouter from 'use-react-router';
 
 import queryString from 'query-string';
@@ -26,7 +27,13 @@ export const Home: React.FC = () => {
         </TextContent>
 
         <CounterOptions
-          onSubmit={(ts: number) => history.push(`/countdown?${queryString.stringify({ ts })}`)}
+          onSubmit={(ts: number) => {
+            ym('reachGoal', 'btn-countdown-start-press', {
+              'btn-countdown-start-press-ts': performance.now(),
+            });
+
+            history.push(`/countdown?${queryString.stringify({ ts })}`);
+          }}
         />
       </Wrap>
     </Container>

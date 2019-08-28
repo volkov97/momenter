@@ -47,6 +47,7 @@
     "react-compound-timer": "^1.1.4",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
+    "react-yandex-metrika": "^2.5.1",
     "styled-components": "^4.3.2",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",

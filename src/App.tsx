@@ -3,9 +3,14 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { Home } from './pages/Home';
 import { Countdown } from './pages/Countdown';
+
+import { useHitNavigationToMetrika } from './lib/hooks/useHitNavigationToMetrika';
+
 import { GlobalStyles } from './App.styled';
 
 export const App: React.FC = () => {
+  useHitNavigationToMetrika();
+
   return (
     <React.Fragment>
       <GlobalStyles />
