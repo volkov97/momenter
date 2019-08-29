@@ -3,13 +3,15 @@ const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const packageJSON = require('./package.json');
+
 module.exports = ({ mode }) => {
   return {
     mode,
     entry: 'src/index.tsx',
     output: {
       path: path.resolve(__dirname, 'public'),
-      filename: 'bundle.js',
+      filename: `${packageJSON.version}/bundle.js`,
     },
     resolve: {
       alias: {
