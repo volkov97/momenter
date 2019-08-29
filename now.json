@@ -1,6 +1,6 @@
 {
   "version": 2,
   "name": "momenter",
-  "alias": ["momenter.app", "momenter-app.com"],
+  "alias": ["momenter.app", "momenter-app.com", "momenter-app.ru"],
   "routes": [{ "src": "(.*\\..*)", "dest": "$1" }, { "src": ".*", "dest": "/index.html" }]
 }
