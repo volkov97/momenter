@@ -14,13 +14,16 @@ export const Countdown: React.FC = () => {
   } = useReactRouter();
   const { ts } = queryString.parse(search);
 
-  const { value } = useTimer({
+  const {
+    value: { h, m, s, ms },
+  } = useTimer({
     initialTime: parseInt(ts as string) - Date.now(),
     lastUnit: 'h',
     direction: 'backward',
+    timeToUpdate: 200,
   });
 
-  const valueString = `${padUnit(value.h)}:${padUnit(value.m)}:${padUnit(value.s)}`;
+  const valueString = `${padUnit(h)}:${padUnit(m)}:${padUnit(ms >= 500 ? s + 1 : s)}`;
 
   useEffect(() => {
     document.title = valueString;

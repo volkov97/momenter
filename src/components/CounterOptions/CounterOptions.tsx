@@ -3,11 +3,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { addMinutes, startOfMinute } from 'date-fns';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import Button from '@material-ui/core/Button';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import { MuiPickersUtilsProvider, TimePicker, DatePicker } from '@material-ui/pickers';
 
 import { Wrap, Line, Option } from './CounterOptions.styled';
 
@@ -29,24 +25,20 @@ export const CounterOptions: React.FC<CounterOptionsProps> = ({ onSubmit }) => {
       <Wrap>
         <Line>
           <Option>
-            <KeyboardDatePicker
+            <DatePicker
               label="Choose date"
               format="MM/dd/yyyy"
+              disablePast={true}
               value={selectedDate}
               onChange={handleDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
             />
           </Option>
           <Line>
-            <KeyboardTimePicker
+            <TimePicker
+              ampm={false}
               label="Choose time"
               value={selectedDate}
               onChange={handleDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change time',
-              }}
             />
           </Line>
         </Line>
