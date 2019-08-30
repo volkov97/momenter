@@ -11,7 +11,7 @@ module.exports = ({ mode }) => {
     entry: 'src/index.tsx',
     output: {
       path: path.resolve(__dirname, 'public'),
-      filename: `${packageJSON.version}/bundle.js`,
+      filename: `bundle-${packageJSON.version.replace(/\./g, '-')}.js`,
     },
     resolve: {
       alias: {
@@ -41,7 +41,7 @@ module.exports = ({ mode }) => {
       }),
     ].filter(Boolean),
     devServer: {
-      contentBase: path.join(__dirname, 'public'),
+      contentBase: path.join(__dirname, 'static'),
       port: 3000,
       historyApiFallback: true,
     },

@@ -7,7 +7,7 @@
     "start": "npm run start:dev",
     "start:dev": "webpack-dev-server --env.mode development",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "build": "webpack --env.mode production"
+    "build": "rm -rf public && webpack --env.mode production && cp static/* public"
   },
   "repository": {
     "type": "git",
