@@ -13,6 +13,10 @@ export const Apps = styled.div`
 
 export const App = styled.div`
   margin-right: 20px;
+
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 
 export const Header = styled.header`

@@ -10,6 +10,7 @@ import {
   startOfMonth,
   endOfMonth,
   addMonths,
+  isPast,
 } from 'date-fns';
 
 import {
@@ -70,7 +71,11 @@ export const Calendar: React.FC = () => {
                     <DaySquareContent>
                       <DayDate>{format(todayDay, 'do')}</DayDate>
                       <Badges>{isToday(todayDay) && <Badge color="red">Today</Badge>}</Badges>
-                      <DayLink to={`/calendar/${format(todayDay, 'MMMM-do-yyyy').toLowerCase()}`} />
+                      {!isPast(todayDay) ? (
+                        <DayLink
+                          to={`/calendar/${format(todayDay, 'MMMM-do-yyyy').toLowerCase()}`}
+                        />
+                      ) : null}
                     </DaySquareContent>
                   </DaySquare>
                 );

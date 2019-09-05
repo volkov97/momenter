@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { media } from 'src/lib/styles/mixins/media';
 
 export const Wrap = styled.div`
   width: 345px;
@@ -10,6 +11,10 @@ export const Wrap = styled.div`
 
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
     0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+
+  ${media.mobile} {
+    width: auto;
+  }
 `;
 
 export const ImageWrap = styled.div`
