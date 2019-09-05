@@ -1,16 +1,15 @@
 import React from 'react';
 import ym from 'react-yandex-metrika';
 import useReactRouter from 'use-react-router';
-
 import queryString from 'query-string';
 
-import { Container } from 'src/components/Layout/Container';
+import Typography from '@material-ui/core/Typography';
 
-import { HeaderLarge } from 'src/components/Layout/Header';
-import { TextContent } from 'src/components/Layout/TextContent';
+import { Container } from 'src/components/Layout/Container';
+import { AppCard } from 'src/components/AppCard/AppCard';
 import { CounterOptions } from 'src/components/CounterOptions/CounterOptions';
 
-import { Wrap } from './Home.styled';
+import { Wrap, Apps, App, Header, Content } from './Home.styled';
 
 export const Home: React.FC = () => {
   const { history } = useReactRouter();
@@ -18,13 +17,19 @@ export const Home: React.FC = () => {
   return (
     <Container>
       <Wrap>
-        <HeaderLarge>Momenter</HeaderLarge>
+        <Header>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Momenter
+          </Typography>
+        </Header>
 
-        <TextContent>
-          Are you waiting for any events?
-          <br />
-          Choose date and time to see a countdown to this event.
-        </TextContent>
+        <Content>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Are you waiting for any events?
+            <br />
+            Choose date and time to see a countdown to this event.
+          </Typography>
+        </Content>
 
         <CounterOptions
           onSubmit={(ts: number) => {
@@ -36,6 +41,16 @@ export const Home: React.FC = () => {
           }}
         />
       </Wrap>
+
+      <Apps>
+        <App>
+          <AppCard
+            title="Countdown Calendar"
+            description="Waiting for any particular date? Choose a date from calendar and watch online countdown to it!"
+            src="/images/calendar.jpg"
+          />
+        </App>
+      </Apps>
     </Container>
   );
 };

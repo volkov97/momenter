@@ -12,6 +12,7 @@ module.exports = ({ mode }) => {
     output: {
       path: path.resolve(__dirname, 'public'),
       filename: `bundle-${packageJSON.version.replace(/\./g, '-')}.js`,
+      publicPath: '/',
     },
     resolve: {
       alias: {
@@ -38,6 +39,7 @@ module.exports = ({ mode }) => {
       new ForkTsCheckerWebpackPlugin(),
       new HtmlWebpackPlugin({
         template: 'src/index.html',
+        base: '/',
       }),
     ].filter(Boolean),
     devServer: {
