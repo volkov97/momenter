@@ -11,7 +11,11 @@ export const Title = styled.header`
 `;
 
 export const Description = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
 export const Content = styled.div``;
+
+export const Share = styled.div`
+  padding-top: 15px;
+`;
