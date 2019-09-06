@@ -33,7 +33,10 @@ export const CalendarDayCountdown: React.FC = () => {
               Momenter shows how much time left until {stringDate}.
             </Typography>
             <Share>
-              <ShareLinks />
+              <ShareLinks
+                title={`How much time left until ${stringDate}?`}
+                description={`Watch online countdown until ${stringDate} on Momenter!`}
+              />
             </Share>
           </Description>
         </Header>

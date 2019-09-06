@@ -16,7 +16,12 @@ import {
 
 import { Wrap, List, Item } from './ShareLinks.styled';
 
-export const ShareLinks = () => {
+interface ShareLinksProps {
+  title: string;
+  description: string;
+}
+
+export const ShareLinks: React.FC<ShareLinksProps> = ({ title, description }) => {
   const {
     location: { pathname },
   } = useRouter();
@@ -40,19 +45,34 @@ export const ShareLinks = () => {
             key="facebook"
             url={sharingUrl}
             beforeOnClick={createBeforeOnClick('facebook')}
+            quote={title}
           >
             <FacebookIcon size={ICON_SIZE} round={true} />
           </FacebookShareButton>,
-          <VKShareButton key="vk" url={sharingUrl} beforeOnClick={createBeforeOnClick('vk')}>
+          <VKShareButton
+            key="vk"
+            url={sharingUrl}
+            beforeOnClick={createBeforeOnClick('vk')}
+            title={title}
+            description={description}
+          >
             <VKIcon size={ICON_SIZE} round={true} />
           </VKShareButton>,
-          <OKShareButton key="ok" url={sharingUrl} beforeOnClick={createBeforeOnClick('ok')}>
+          <OKShareButton
+            key="ok"
+            url={sharingUrl}
+            beforeOnClick={createBeforeOnClick('ok')}
+            title={title}
+            description={description}
+          >
             <OKIcon size={ICON_SIZE} round={true} />
           </OKShareButton>,
           <LinkedinShareButton
             key="linkedin"
             url={sharingUrl}
             beforeOnClick={createBeforeOnClick('linkedin')}
+            title={title}
+            description={description}
           >
             <LinkedinIcon size={ICON_SIZE} round={true} />
           </LinkedinShareButton>,
@@ -60,6 +80,7 @@ export const ShareLinks = () => {
             key="twitter"
             url={sharingUrl}
             beforeOnClick={createBeforeOnClick('twitter')}
+            title={title}
           >
             <TwitterIcon size={ICON_SIZE} round={true} />
           </TwitterShareButton>,
