@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import ym from 'react-yandex-metrika';
 import useReactRouter from 'use-react-router';
 import queryString from 'query-string';
@@ -13,6 +13,12 @@ import { Wrap, Apps, App, Header, Content } from './Home.styled';
 
 export const Home: React.FC = () => {
   const { history } = useReactRouter();
+
+  const mountedTsRef = useRef<number>(0);
+
+  useEffect(() => {
+    mountedTsRef.current = performance.now();
+  }, []);
 
   return (
     <Container>
@@ -34,7 +40,7 @@ export const Home: React.FC = () => {
         <CounterOptions
           onSubmit={(ts: number) => {
             ym('reachGoal', 'btn-countdown-start-press', {
-              'btn-countdown-start-press-ts': performance.now(),
+              'btn-countdown-start-press-ts': performance.now() - mountedTsRef.current,
             });
 
             history.push(`/countdown?${queryString.stringify({ ts })}`);

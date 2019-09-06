@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { media } from 'src/lib/styles/mixins/media';
 
 export const Wrap = styled.div`
   padding: 40px 0 50px;
@@ -37,10 +38,19 @@ export const Navigation = styled.div`
   display: flex;
 
   align-items: center;
+
+  ${media.tablet} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 export const BreadcrumbsWrap = styled.div`
   margin-right: 20px;
+
+  ${media.tablet} {
+    margin-right: 0;
+  }
 `;
 
 export const SiblingDays = styled.div`
