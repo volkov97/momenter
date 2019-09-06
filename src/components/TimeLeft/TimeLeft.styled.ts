@@ -8,6 +8,10 @@ export const TimeUnit = styled.div`
   display: flex;
 
   margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 `;
 
 export const TimeUnitName = styled.div`

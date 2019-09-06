@@ -6,8 +6,28 @@ import { parse, format } from 'date-fns';
 import { Container } from 'src/components/Layout/Container';
 import { ShareLinks } from 'src/components/ShareLinks/ShareLinks';
 
-import { Wrap, Header, Title, Description, Content, Share } from './CalendarDayCountdown.styled';
 import { CountdownToDay } from './CountdownToDay/CountdownToDay';
+
+import {
+  dayOfWeek,
+  daysFromYearStart,
+  daysUntilNextFriday,
+  daysUntilNextSaturday,
+  daysUntilEndOfYear,
+} from 'src/lib/helpers/dayInfo';
+
+import {
+  Wrap,
+  Header,
+  Title,
+  Description,
+  Content,
+  Share,
+  Info,
+  InfoItem,
+  InfoHeader,
+  InfoContent,
+} from './CalendarDayCountdown.styled';
 
 export const CalendarDayCountdown: React.FC = () => {
   const {
@@ -29,7 +49,7 @@ export const CalendarDayCountdown: React.FC = () => {
             </Typography>
           </Title>
           <Description>
-            <Typography variant="h5" component="h2">
+            <Typography variant="h5" component="h3">
               Momenter shows how much time left until {stringDate}.
             </Typography>
             <Share>
@@ -43,6 +63,40 @@ export const CalendarDayCountdown: React.FC = () => {
         <Content>
           <CountdownToDay date={jsDate} />
         </Content>
+        <Info>
+          {[
+            { title: `What day of the week is ${stringDate}?`, text: dayOfWeek(jsDate) },
+            {
+              title: `How many days from start of the year until ${stringDate}?`,
+              text: daysFromYearStart(jsDate),
+            },
+            {
+              title: `How many days from ${stringDate} until the end of the year?`,
+              text: daysUntilEndOfYear(jsDate),
+            },
+            {
+              title: `How many days from ${stringDate} until next Saturday?`,
+              text: daysUntilNextSaturday(jsDate),
+            },
+            {
+              title: `How many days from ${stringDate} until next Friday?`,
+              text: daysUntilNextFriday(jsDate),
+            },
+          ].map(item => (
+            <InfoItem key={item.title}>
+              <InfoHeader>
+                <Typography variant="h5" component="h3">
+                  {item.title}
+                </Typography>
+              </InfoHeader>
+              <InfoContent>
+                <Typography variant="h5" component="p">
+                  {item.text}
+                </Typography>
+              </InfoContent>
+            </InfoItem>
+          ))}
+        </Info>
       </Wrap>
     </Container>
   );
