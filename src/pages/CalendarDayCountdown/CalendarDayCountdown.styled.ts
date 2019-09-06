@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Wrap = styled.div`
   padding: 40px 0 50px;
@@ -31,3 +32,28 @@ export const InfoHeader = styled.div`
 `;
 
 export const InfoContent = styled.div``;
+
+export const Navigation = styled.div`
+  display: flex;
+
+  align-items: center;
+`;
+
+export const BreadcrumbsWrap = styled.div`
+  margin-right: 20px;
+`;
+
+export const SiblingDays = styled.div`
+  display: flex;
+`;
+
+export const SiblingDay = styled(Link)`
+  margin-right: 10px;
+
+  color: #1976d2;
+  text-decoration: none;
+
+  &:last-child {
+    margin-right: 0;
+  }
+`;

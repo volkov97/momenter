@@ -1,10 +1,11 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import useReactRouter from 'use-react-router';
-import { parse, format } from 'date-fns';
+import { parse, format, addDays, subDays, isPast, differenceInDays } from 'date-fns';
 
 import { Container } from 'src/components/Layout/Container';
 import { ShareLinks } from 'src/components/ShareLinks/ShareLinks';
+import { Breadcrumbs } from 'src/components/Breadcrumbs/Breadcrumbs';
 
 import { CountdownToDay } from './CountdownToDay/CountdownToDay';
 
@@ -27,6 +28,10 @@ import {
   InfoItem,
   InfoHeader,
   InfoContent,
+  Navigation,
+  BreadcrumbsWrap,
+  SiblingDays,
+  SiblingDay,
 } from './CalendarDayCountdown.styled';
 
 export const CalendarDayCountdown: React.FC = () => {
@@ -39,10 +44,36 @@ export const CalendarDayCountdown: React.FC = () => {
   const jsDate = parse(date, 'MMMM-do-yyyy', new Date());
   const stringDate = format(jsDate, 'MMMM, do');
 
+  const nextDay = addDays(jsDate, 1);
+  const prevDay = subDays(jsDate, 1);
+
   return (
     <Container>
       <Wrap>
         <Header>
+          <Navigation>
+            <BreadcrumbsWrap>
+              <Breadcrumbs
+                data={[
+                  { title: 'Home', link: '/' },
+                  { title: 'Calendar', link: '/calendar' },
+                  { title: stringDate, link: null },
+                ]}
+              />
+            </BreadcrumbsWrap>
+            <SiblingDays>
+              {!isPast(jsDate) ? (
+                <SiblingDay to={`/calendar/${format(prevDay, 'MMMM-do-yyyy')}`}>
+                  Previous day
+                </SiblingDay>
+              ) : null}
+              {differenceInDays(nextDay, new Date()) < 400 ? (
+                <SiblingDay to={`/calendar/${format(nextDay, 'MMMM-do-yyyy')}`}>
+                  Next day
+                </SiblingDay>
+              ) : null}
+            </SiblingDays>
+          </Navigation>
           <Title>
             <Typography variant="h4" component="h1">
               Time until day
@@ -61,7 +92,7 @@ export const CalendarDayCountdown: React.FC = () => {
           </Description>
         </Header>
         <Content>
-          <CountdownToDay date={jsDate} />
+          <CountdownToDay key={String(jsDate)} date={jsDate} />
         </Content>
         <Info>
           {[
