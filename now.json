@@ -1,6 +1,0 @@
-{
-  "version": 2,
-  "name": "momenter",
-  "alias": ["momenter-app.com"],
-  "routes": [{ "src": "(.*\\..*)", "dest": "$1" }, { "src": ".*", "dest": "/index.html" }]
-}
