@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import useReactRouter from 'use-react-router';
 import { parse, format, addDays, subDays, isPast, differenceInDays } from 'date-fns';
@@ -46,6 +46,10 @@ export const CalendarDayCountdown: React.FC = () => {
 
   const nextDay = addDays(jsDate, 1);
   const prevDay = subDays(jsDate, 1);
+
+  useEffect(() => {
+    document.title = `How much time left until ${format(jsDate, 'MMMM, do')}?`;
+  }, [date]);
 
   return (
     <Container>
