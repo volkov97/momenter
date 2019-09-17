@@ -1,31 +1,41 @@
 import styled from 'styled-components';
+import { media } from 'src/lib/styles/mixins/media';
 
 export const Wrap = styled.div`
-  display: inline-block;
+  display: flex;
+
+  ${media.mobile} {
+    flex-direction: column;
+  }
 `;
 
 export const TimeUnit = styled.div`
   display: flex;
 
-  margin-bottom: 20px;
+  margin-right: 20px;
+
+  font-size: 2em;
+  line-height: 1.2;
 
   &:last-child {
-    margin-bottom: 0;
+    margin-right: 0;
+  }
+
+  ${media.mobile} {
+    font-size: 1.4em;
+    line-height: 1.4;
   }
 `;
 
 export const TimeUnitName = styled.div`
-  color: grey;
-
   text-align: left;
 `;
 
 export const TimeUnitValue = styled.div`
-  margin-right: 20px;
+  margin-right: 10px;
 
   text-align: right;
-
-  font-variant-numeric: tabular-nums;
+  color: black;
 `;
 
 export const InvisibleDigit = styled.span`

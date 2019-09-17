@@ -2,14 +2,14 @@ import React, { useRef, useEffect } from 'react';
 import ym from 'react-yandex-metrika';
 import useReactRouter from 'use-react-router';
 import queryString from 'query-string';
-
-import Typography from '@material-ui/core/Typography';
+import { Typography, Divider } from 'antd';
+import moment from 'moment';
 
 import { Container } from 'src/components/Layout/Container';
-import { AppCard } from 'src/components/AppCard/AppCard';
-import { CounterOptions } from 'src/components/CounterOptions/CounterOptions';
+import { DateSelector } from 'src/components/DateSelector/DateSelector';
 
-import { Wrap, Apps, App, Header, Content } from './Home.styled';
+import { Wrap } from './Home.styled';
+import { format } from 'date-fns';
 
 export const Home: React.FC = () => {
   const { history } = useReactRouter();
@@ -23,21 +23,16 @@ export const Home: React.FC = () => {
   return (
     <Container>
       <Wrap>
-        <Header>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Momenter
-          </Typography>
-        </Header>
+        <Typography.Paragraph>
+          Are you waiting for any events?
+          <br />
+          Choose date and time to <Typography.Text mark={true}>see a countdown</Typography.Text> to
+          this event.
+        </Typography.Paragraph>
 
-        <Content>
-          <Typography variant="h5" component="h2" gutterBottom>
-            Are you waiting for any events?
-            <br />
-            Choose date and time to see a countdown to this event.
-          </Typography>
-        </Content>
-
-        <CounterOptions
+        <DateSelector
+          defaultDate={moment().add(10, 'minutes')}
+          buttonText="Start countdown"
           onSubmit={(ts: number) => {
             ym('reachGoal', 'btn-countdown-start-press', {
               'btn-countdown-start-press-ts': performance.now() - mountedTsRef.current,
@@ -48,15 +43,33 @@ export const Home: React.FC = () => {
         />
       </Wrap>
 
-      <Apps>
-        <App>
-          <AppCard
-            title="Countdown Calendar"
-            description="Waiting for any particular date? Choose a date from calendar and watch online countdown to it!"
-            src="/images/calendar.jpg"
-          />
-        </App>
-      </Apps>
+      <Divider />
+
+      <Wrap>
+        <Typography.Paragraph>
+          Do you want to know more about any date?
+          <br />
+          Choose date and <Typography.Text mark={true}>
+            read some interesting info
+          </Typography.Text>{' '}
+          about this day.
+        </Typography.Paragraph>
+
+        <DateSelector
+          buttonText="Show info"
+          showTime={false}
+          onSubmit={(ts: number) => {
+            const dayUrl = format(ts, 'MMMM-do-yyyy').toLowerCase();
+
+            ym('reachGoal', 'btn-show-day-info-press', {
+              'btn-show-day-info-press-ts': performance.now() - mountedTsRef.current,
+              'btn-show-day-info-press-value': dayUrl,
+            });
+
+            history.push(`/calendar/${dayUrl}`);
+          }}
+        />
+      </Wrap>
     </Container>
   );
 };

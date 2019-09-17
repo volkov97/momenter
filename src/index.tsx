@@ -1,15 +1,10 @@
-import * as firebase from 'firebase';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { YMInitializer } from 'react-yandex-metrika';
 import WebFont from 'webfontloader';
 
-import { firebaseConfig } from './config/firebaseConfig';
-
 import { App } from './App';
-
-firebase.initializeApp(firebaseConfig);
 
 WebFont.load({
   google: {

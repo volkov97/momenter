@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import Typography from '@material-ui/core/Typography';
+import { useMediaQuery } from 'react-responsive';
+import { Button, Typography, Statistic, Icon, Divider } from 'antd';
 import useReactRouter from 'use-react-router';
-import { parse, format, addDays, subDays, isPast, differenceInDays } from 'date-fns';
+import { parse, format, addDays, subDays } from 'date-fns';
 
 import { Container } from 'src/components/Layout/Container';
 import { ShareLinks } from 'src/components/ShareLinks/ShareLinks';
-import { Breadcrumbs } from 'src/components/Breadcrumbs/Breadcrumbs';
 
 import { CountdownToDay } from './CountdownToDay/CountdownToDay';
 
@@ -13,126 +13,93 @@ import {
   dayOfWeek,
   daysFromYearStart,
   daysUntilNextFriday,
-  daysUntilNextSaturday,
   daysUntilEndOfYear,
 } from 'src/lib/helpers/dayInfo';
 
-import {
-  Wrap,
-  Header,
-  Title,
-  Description,
-  Content,
-  Share,
-  Info,
-  InfoItem,
-  InfoHeader,
-  InfoContent,
-  Navigation,
-  BreadcrumbsWrap,
-  SiblingDays,
-  SiblingDay,
-} from './CalendarDayCountdown.styled';
+import { Toolbar, Content, Info, InfoItem, SiblingDays } from './CalendarDayCountdown.styled';
+import { mediaQuerySizes } from 'src/lib/styles/mixins/media';
 
 export const CalendarDayCountdown: React.FC = () => {
   const {
     match: {
       params: { date },
     },
+    history,
   } = useReactRouter<{ date: string }>();
+  const isMobile = useMediaQuery({ maxWidth: mediaQuerySizes.mobile });
 
   const jsDate = parse(date, 'MMMM-do-yyyy', new Date());
-  const stringDate = format(jsDate, 'MMMM, do');
+  const stringDate = format(jsDate, 'MMMM do');
 
   const nextDay = addDays(jsDate, 1);
+  const nextDayString = format(nextDay, 'MMMM do');
   const prevDay = subDays(jsDate, 1);
+  const prevDayString = format(prevDay, 'MMMM do');
 
   useEffect(() => {
-    document.title = `How much time left until ${format(jsDate, 'MMMM, do')}?`;
+    document.title = `How much time left until ${stringDate}?`;
   }, [date]);
 
   return (
     <Container>
-      <Wrap>
-        <Header>
-          <Navigation>
-            <BreadcrumbsWrap>
-              <Breadcrumbs
-                data={[
-                  { title: 'Home', link: '/' },
-                  { title: 'Calendar', link: '/calendar' },
-                  { title: stringDate, link: null },
-                ]}
-              />
-            </BreadcrumbsWrap>
-            <SiblingDays>
-              {!isPast(jsDate) ? (
-                <SiblingDay to={`/calendar/${format(prevDay, 'MMMM-do-yyyy')}`}>
-                  Previous day
-                </SiblingDay>
-              ) : null}
-              {differenceInDays(nextDay, new Date()) < 400 ? (
-                <SiblingDay to={`/calendar/${format(nextDay, 'MMMM-do-yyyy')}`}>
-                  Next day
-                </SiblingDay>
-              ) : null}
-            </SiblingDays>
-          </Navigation>
-          <Title>
-            <Typography variant="h4" component="h1">
-              Time until day
-            </Typography>
-          </Title>
-          <Description>
-            <Typography variant="h5" component="h3">
-              Momenter shows how much time left until {stringDate}.
-            </Typography>
-            <Share>
-              <ShareLinks
-                title={`How much time left until ${stringDate}?`}
-                description={`Watch online countdown until ${stringDate} on Momenter!`}
-              />
-            </Share>
-          </Description>
-        </Header>
-        <Content>
-          <CountdownToDay key={String(jsDate)} date={jsDate} />
-        </Content>
+      <Toolbar>
+        <Typography.Title level={isMobile ? 3 : 2}>{stringDate}</Typography.Title>
+
+        <SiblingDays>
+          <Button.Group size={isMobile ? 'small' : 'default'}>
+            <Button
+              type="primary"
+              size={isMobile ? 'small' : 'default'}
+              onClick={() =>
+                history.push(`/calendar/${format(prevDay, 'MMMM-do-yyyy').toLowerCase()}`)
+              }
+            >
+              <Icon type="left" />
+              {prevDayString}
+            </Button>
+            <Button
+              type="primary"
+              onClick={() =>
+                history.push(`/calendar/${format(nextDay, 'MMMM-do-yyyy').toLowerCase()}`)
+              }
+            >
+              {nextDayString}
+              <Icon type="right" />
+            </Button>
+          </Button.Group>
+        </SiblingDays>
+      </Toolbar>
+
+      <Divider />
+
+      <Content>
+        <CountdownToDay key={String(jsDate)} date={jsDate} />
         <Info>
           {[
-            { title: `What day of the week is ${stringDate}?`, text: dayOfWeek(jsDate) },
+            { title: `Day of the week`, text: dayOfWeek(jsDate) },
             {
-              title: `How many days from start of the year until ${stringDate}?`,
-              text: daysFromYearStart(jsDate),
+              title: `From start of the year`,
+              text: `${daysFromYearStart(jsDate)} days`,
             },
             {
-              title: `How many days from ${stringDate} until the end of the year?`,
-              text: daysUntilEndOfYear(jsDate),
+              title: `Until the end of the year`,
+              text: `${daysUntilEndOfYear(jsDate)} days`,
             },
             {
-              title: `How many days from ${stringDate} until next Saturday?`,
-              text: daysUntilNextSaturday(jsDate),
-            },
-            {
-              title: `How many days from ${stringDate} until next Friday?`,
-              text: daysUntilNextFriday(jsDate),
+              title: `Until next Friday`,
+              text: `${daysUntilNextFriday(jsDate)} days`,
             },
           ].map(item => (
-            <InfoItem key={item.title}>
-              <InfoHeader>
-                <Typography variant="h5" component="h3">
-                  {item.title}
-                </Typography>
-              </InfoHeader>
-              <InfoContent>
-                <Typography variant="h5" component="p">
-                  {item.text}
-                </Typography>
-              </InfoContent>
+            <InfoItem key={item.text}>
+              <Statistic title={item.title} value={item.text} />
             </InfoItem>
           ))}
         </Info>
-      </Wrap>
+        <ShareLinks
+          title={`How much time left until ${stringDate}?`}
+          description={`Watch online countdown until ${stringDate} on Momenter!`}
+        />
+      </Content>
     </Container>
   );
 };

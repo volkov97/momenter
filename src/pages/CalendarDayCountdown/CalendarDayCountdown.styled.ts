@@ -1,69 +1,65 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { media } from 'src/lib/styles/mixins/media';
 
-export const Wrap = styled.div`
-  padding: 40px 0 50px;
+export const Toolbar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 40px 0 20px;
+
+  h2 {
+    margin-bottom: 0;
+  }
+
+  ${media.mobile} {
+    flex-direction: column;
+    align-items: flex-start;
+
+    padding: 20px 0 10px;
+
+    h2 {
+      margin-bottom: 10px;
+    }
+  }
 `;
-
-export const Header = styled.div``;
-
-export const Title = styled.header`
-  margin-bottom: 20px;
-`;
-
-export const Description = styled.div``;
 
 export const Content = styled.div`
-  padding: 30px 0;
+  padding: 20px 0;
+
+  ${media.mobile} {
+    padding: 0;
+  }
 `;
 
-export const Share = styled.div`
-  padding-top: 15px;
-`;
+export const Share = styled.div``;
 
-export const Info = styled.div``;
+export const Info = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  margin-top: 25px;
+  margin-bottom: 25px;
+
+  ${media.mobile} {
+    margin-bottom: 15px;
+  }
+`;
 
 export const InfoItem = styled.div`
-  margin-bottom: 20px;
-`;
+  margin-right: 20px;
 
-export const InfoHeader = styled.div`
-  margin-bottom: 10px;
+  ${media.mobile} {
+    margin-right: 0;
+    margin-bottom: 10px;
+
+    width: 50%;
+  }
 `;
 
 export const InfoContent = styled.div``;
 
-export const Navigation = styled.div`
-  display: flex;
-
-  align-items: center;
-
-  ${media.tablet} {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`;
-
-export const BreadcrumbsWrap = styled.div`
-  margin-right: 20px;
-
-  ${media.tablet} {
-    margin-right: 0;
-  }
-`;
-
 export const SiblingDays = styled.div`
   display: flex;
-`;
-
-export const SiblingDay = styled(Link)`
-  margin-right: 10px;
-
-  color: #1976d2;
-  text-decoration: none;
-
-  &:last-child {
-    margin-right: 0;
-  }
 `;

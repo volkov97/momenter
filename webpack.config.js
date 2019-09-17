@@ -1,6 +1,7 @@
 const path = require('path');
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const tsImportPluginFactory = require('ts-import-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const packageJSON = require('./package.json');
@@ -24,11 +25,33 @@ module.exports = ({ mode }) => {
       rules: [
         {
           test: /\.tsx?$/,
+          loader: 'ts-loader',
+          options: {
+            getCustomTransformers: () => ({
+              before: [
+                tsImportPluginFactory({
+                  libraryName: 'antd',
+                  libraryDirectory: 'es',
+                  style: true,
+                }),
+              ],
+            }),
+            transpileOnly: true,
+          },
+        },
+        {
+          test: /\.less$/,
           use: [
             {
-              loader: 'ts-loader',
+              loader: 'style-loader',
+            },
+            {
+              loader: 'css-loader',
+            },
+            {
+              loader: 'less-loader',
               options: {
-                transpileOnly: true,
+                javascriptEnabled: true,
               },
             },
           ],

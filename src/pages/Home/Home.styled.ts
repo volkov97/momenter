@@ -1,28 +1,9 @@
 import styled from 'styled-components';
 
 export const Wrap = styled.div`
-  padding: 40px 0 50px;
-`;
+  padding: 20px 0 20px;
 
-export const Apps = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  margin-bottom: 40px;
-`;
-
-export const App = styled.div`
-  margin-right: 20px;
-
-  &:last-child {
-    margin-right: 0;
+  &:first-child {
+    padding-top: 40px;
   }
-`;
-
-export const Header = styled.header`
-  margin-bottom: 20px;
-`;
-
-export const Content = styled.div`
-  margin-bottom: 30px;
 `;
