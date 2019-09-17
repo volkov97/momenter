@@ -7,7 +7,9 @@
     "start": "npm run start:dev",
     "start:dev": "webpack-dev-server --env.mode development",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "build": "rm -rf public && webpack --env.mode production && cp -a static/. public/"
+    "build": "rm -rf public && webpack --env.mode production && cp -a static/. public/",
+    "deploy:prod": "firebase deploy --only hosting:prod",
+    "deploy:testing": "firebase deploy --only hosting:testing"
   },
   "repository": {
     "type": "git",

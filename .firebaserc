@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "momenter-app"
+  },
+  "targets": {
+    "momenter-app": {
+      "hosting": {
+        "prod": [
+          "momenter-app"
+        ],
+        "testing": [
+          "momenter-app-test"
+        ]
+      }
+    }
   }
 }
