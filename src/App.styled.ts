@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'polished';
+import { media } from './lib/styles/mixins/media';
 
 export const GlobalStyles = createGlobalStyle`
   ${normalize()}
@@ -18,5 +19,17 @@ export const GlobalStyles = createGlobalStyle`
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     color: #393e42;
+  }
+
+  ${media.mobile} {
+    .am-list-item {
+      margin-left: -20px;
+      margin-right: -20px;
+      padding-left: 20px !important;
+
+      .am-list-line .am-list-extra {
+        flex-basis: auto !important;
+      }
+    }
   }
 `;

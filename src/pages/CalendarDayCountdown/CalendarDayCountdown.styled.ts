@@ -28,7 +28,7 @@ export const Content = styled.div`
   padding: 20px 0;
 
   ${media.mobile} {
-    padding: 0;
+    padding: 0 0 25px;
   }
 `;
 

@@ -34,13 +34,18 @@ module.exports = ({ mode }) => {
                   libraryDirectory: 'es',
                   style: true,
                 }),
+                tsImportPluginFactory({
+                  libraryName: 'antd-mobile',
+                  libraryDirectory: 'es',
+                  style: true,
+                }),
               ],
             }),
             transpileOnly: true,
           },
         },
         {
-          test: /\.less$/,
+          test: /\.(less|css)$/,
           use: [
             {
               loader: 'style-loader',

@@ -18,6 +18,7 @@ export const Column = styled.div`
   }
 
   ${media.mobile} {
+    margin-right: 0;
     margin-bottom: 15px;
 
     &:last-child {
