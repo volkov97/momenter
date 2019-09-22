@@ -19,6 +19,8 @@ export const GlobalStyles = createGlobalStyle`
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     color: #393e42;
+
+    background-color: #fff;
   }
 
   ${media.mobile} {
@@ -26,6 +28,9 @@ export const GlobalStyles = createGlobalStyle`
       margin-left: -20px;
       margin-right: -20px;
       padding-left: 20px !important;
+
+      border-top: 1px solid #e8e8e8;
+      border-bottom: 1px solid #e8e8e8;
 
       .am-list-line .am-list-extra {
         flex-basis: auto !important;
