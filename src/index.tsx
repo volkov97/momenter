@@ -9,8 +9,9 @@ import { CurrentUserProvider } from './lib/providers/CurrentUserProvider';
 import { App } from './App';
 
 WebFont.load({
-  google: {
-    families: ['Roboto:300,400,500,700:latin', 'sans-serif'],
+  custom: {
+    families: ['Inter:n4,n7', 'Inter var:n4,n7'],
+    urls: ['/styles/inter.css'],
   },
 });
 
