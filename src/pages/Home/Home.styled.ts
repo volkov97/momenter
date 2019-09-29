@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrap = styled.div`
-  padding: 20px 0 20px;
+  padding: 15px 0 20px;
 
   &:first-child {
     padding-top: 40px;

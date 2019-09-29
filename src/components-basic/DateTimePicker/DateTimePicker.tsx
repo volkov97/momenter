@@ -17,12 +17,16 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    flatpickr(inputRef.current as Node, {
+    const dateTimeInput = flatpickr(inputRef.current as Node, {
       defaultDate: defaultDate || new Date(),
       enableTime: showTime,
       onChange: dates => onChange && onChange(dates[0]),
-      dateFormat: 'd.m.Y H:i',
+      dateFormat: showTime ? 'd.m.Y H:i' : 'd.m.Y',
     });
+
+    return () => {
+      dateTimeInput.destroy();
+    };
   }, []);
 
   return <Input ref={inputRef} />;
