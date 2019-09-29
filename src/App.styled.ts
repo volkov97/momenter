@@ -1,9 +1,11 @@
 import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'polished';
-import { media } from './lib/styles/mixins/media';
+import { flatpickr } from './lib/styles/libs/flatpickr';
 
 export const GlobalStyles = createGlobalStyle`
   ${normalize()}
+
+  ${flatpickr}
 
   * {
     box-sizing: border-box;
@@ -27,18 +29,7 @@ export const GlobalStyles = createGlobalStyle`
     body { font-family: 'Inter var', sans-serif; }
   }
 
-  ${media.mobile} {
-    .am-list-item {
-      margin-left: -20px;
-      margin-right: -20px;
-      padding-left: 20px !important;
-
-      border-top: 1px solid #e8e8e8;
-      border-bottom: 1px solid #e8e8e8;
-
-      .am-list-line .am-list-extra {
-        flex-basis: auto !important;
-      }
-    }
+  a {
+    text-decoration: none;
   }
 `;

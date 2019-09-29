@@ -1,56 +1,44 @@
 import React, { useState, useCallback } from 'react';
-import { DatePicker, Button } from 'antd';
-import { DatePicker as MobileDatePicker, List as MobileList } from 'antd-mobile';
-import moment, { Moment } from 'moment';
-import { useMediaQuery } from 'react-responsive';
-import enUs from 'antd-mobile/lib/date-picker/locale/en_US';
+import { Button as BasicButton } from '../../components-basic/Button';
 
 import { Wrap, Column } from './DateSelector.styled';
-import { mediaQuerySizes } from 'src/lib/styles/mixins/media';
+import { DateTimePicker } from 'src/components-basic/DateTimePicker';
 
 interface CountdownOptionsProps {
-  defaultDate?: Moment;
+  defaultDate?: Date;
   buttonText: string;
   showTime?: boolean;
-  onSubmit: (ts: number) => void;
+  linkCreator: (ts: Date) => string;
+  onSubmit: (ts: Date) => void;
 }
 
 export const DateSelector: React.FC<CountdownOptionsProps> = ({
-  defaultDate = moment(),
+  defaultDate = new Date(),
   showTime = true,
+  linkCreator,
   onSubmit,
   buttonText,
 }) => {
-  const [selectedDate, setSelectedDate] = useState<Moment>(defaultDate);
-  const isMobile = useMediaQuery({ maxWidth: mediaQuerySizes.mobile });
+  const [selectedDate, setSelectedDate] = useState<Date>(defaultDate);
 
-  const onDateChange = useCallback((date: Moment | null) => {
+  const onDateChange = useCallback((date: Date) => {
     if (date) {
       setSelectedDate(date);
     }
   }, []);
 
+  const ts = selectedDate || Date.now();
+
   return (
     <Wrap>
       <Column>
-        {isMobile ? (
-          <MobileDatePicker
-            mode={showTime ? 'datetime' : 'date'}
-            locale={enUs}
-            onChange={ts => onDateChange(moment(ts))}
-            value={selectedDate.toDate()}
-          >
-            <MobileList.Item arrow="horizontal">Choose date</MobileList.Item>
-          </MobileDatePicker>
-        ) : (
-          <DatePicker showTime={showTime} onChange={onDateChange} value={selectedDate} />
-        )}
+        <DateTimePicker showTime={showTime} onChange={onDateChange} />
       </Column>
 
       <Column>
-        <Button type="primary" onClick={() => onSubmit((selectedDate || moment()).valueOf())}>
+        <BasicButton linkTo={linkCreator(ts)} onClick={() => onSubmit(ts)}>
           {buttonText}
-        </Button>
+        </BasicButton>
       </Column>
     </Wrap>
   );

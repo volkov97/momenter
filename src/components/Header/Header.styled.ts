@@ -16,15 +16,13 @@ export const Inner = styled.div`
   align-items: center;
 `;
 
-export const Emblem = styled(Link)`
+export const EmblemWrap = styled.div`
   display: flex;
   align-items: center;
+`;
 
-  h1,
-  h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+export const Emblem = styled(Link)`
+  color: #000;
 `;
 
 export const Logo = styled.div`

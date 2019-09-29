@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { Button, Typography, Statistic, Icon, Divider } from 'antd';
 import useReactRouter from 'use-react-router';
 import { parse, format, addDays, subDays } from 'date-fns';
 
+import { Typography } from 'src/components-basic/Typography';
+import { Statistic } from 'src/components-basic/Statistic';
+import { Button, ButtonGroup } from 'src/components-basic/Button';
+import { Divider } from 'src/components-basic/Divider';
 import { Container } from 'src/components/Layout/Container';
 import { ShareLinks } from 'src/components/ShareLinks/ShareLinks';
 
@@ -18,13 +21,14 @@ import {
 
 import { Toolbar, Content, Info, InfoItem, SiblingDays } from './CalendarDayCountdown.styled';
 import { mediaQuerySizes } from 'src/lib/styles/mixins/media';
+import { LeftArrowIcon } from 'src/components/__icons__/LeftArrowIcon';
+import { RightArrowIcon } from 'src/components/__icons__/RightArrowIcon';
 
 export const CalendarDayCountdown: React.FC = () => {
   const {
     match: {
       params: { date },
     },
-    history,
   } = useReactRouter<{ date: string }>();
   const isMobile = useMediaQuery({ maxWidth: mediaQuerySizes.mobile });
 
@@ -46,27 +50,20 @@ export const CalendarDayCountdown: React.FC = () => {
         <Typography.Title level={isMobile ? 3 : 2}>{stringDate}</Typography.Title>
 
         <SiblingDays>
-          <Button.Group size={isMobile ? 'small' : 'default'}>
+          <ButtonGroup>
             <Button
-              type="primary"
-              size={isMobile ? 'small' : 'default'}
-              onClick={() =>
-                history.push(`/calendar/${format(prevDay, 'MMMM-do-yyyy').toLowerCase()}`)
-              }
+              linkTo={`/calendar/${format(prevDay, 'MMMM-do-yyyy').toLowerCase()}`}
+              leftIcon={<LeftArrowIcon />}
             >
-              <Icon type="left" />
               {prevDayString}
             </Button>
             <Button
-              type="primary"
-              onClick={() =>
-                history.push(`/calendar/${format(nextDay, 'MMMM-do-yyyy').toLowerCase()}`)
-              }
+              linkTo={`/calendar/${format(nextDay, 'MMMM-do-yyyy').toLowerCase()}`}
+              rightIcon={<RightArrowIcon />}
             >
               {nextDayString}
-              <Icon type="right" />
             </Button>
-          </Button.Group>
+          </ButtonGroup>
         </SiblingDays>
       </Toolbar>
 

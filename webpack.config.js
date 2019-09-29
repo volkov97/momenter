@@ -1,7 +1,6 @@
 const path = require('path');
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const tsImportPluginFactory = require('ts-import-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const packageJSON = require('./package.json');
@@ -26,40 +25,6 @@ module.exports = ({ mode }) => {
         {
           test: /\.tsx?$/,
           loader: 'ts-loader',
-          options: {
-            getCustomTransformers: () => ({
-              before: [
-                tsImportPluginFactory({
-                  libraryName: 'antd',
-                  libraryDirectory: 'es',
-                  style: true,
-                }),
-                tsImportPluginFactory({
-                  libraryName: 'antd-mobile',
-                  libraryDirectory: 'es',
-                  style: true,
-                }),
-              ],
-            }),
-            transpileOnly: true,
-          },
-        },
-        {
-          test: /\.(less|css)$/,
-          use: [
-            {
-              loader: 'style-loader',
-            },
-            {
-              loader: 'css-loader',
-            },
-            {
-              loader: 'less-loader',
-              options: {
-                javascriptEnabled: true,
-              },
-            },
-          ],
         },
       ],
     },
@@ -69,7 +34,7 @@ module.exports = ({ mode }) => {
         template: 'src/index.html',
         base: '/',
       }),
-    ].filter(Boolean),
+    ],
     devServer: {
       contentBase: path.join(__dirname, 'static'),
       port: 3000,

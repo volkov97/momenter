@@ -1,8 +1,13 @@
 import React from 'react';
-import { Typography, Spin, Button, Avatar, Tooltip } from 'antd';
+import { Button } from 'src/components-basic/Button';
+import { Avatar } from 'src/components-basic/Avatar';
+import { Typography } from 'src/components-basic/Typography';
+import { Spin } from 'src/components-basic/Spin';
 
 import { Container } from '../Layout/Container';
 import { MomenterIcon } from '../__icons__/MomenterIcon';
+import { GoogleIcon } from '../__icons__/GoogleIcon';
+import { LogoutIcon } from '../__icons__/LogoutIcon';
 
 import { useCurrentUser } from 'src/lib/providers/CurrentUserProvider';
 import { useDesktopOrHigher } from 'src/lib/hooks/useMedia';
@@ -10,6 +15,7 @@ import { useDesktopOrHigher } from 'src/lib/hooks/useMedia';
 import {
   Wrap,
   Inner,
+  EmblemWrap,
   Emblem,
   Logo,
   AuthControls,
@@ -26,12 +32,17 @@ export const Header = () => {
     <Wrap>
       <Container>
         <Inner>
-          <Emblem to="/">
+          <EmblemWrap>
             <Logo>
-              <MomenterIcon />
+              <Emblem to="/">
+                <MomenterIcon />
+              </Emblem>
             </Logo>
-            <Typography.Title level={isDesktopOrHigher ? 1 : 3}>Momenter</Typography.Title>
-          </Emblem>
+
+            <Typography.Title level={isDesktopOrHigher ? 1 : 3}>
+              <Emblem to="/">Momenter</Emblem>
+            </Typography.Title>
+          </EmblemWrap>
 
           <AuthControls>
             {isInitializing ? (
@@ -41,15 +52,13 @@ export const Header = () => {
                 {isDesktopOrHigher ? <Name>{user.name}</Name> : null}
 
                 <AvatarWrap>
-                  <Avatar src={user.avatarUrl} shape="square" size="large" />
+                  <Avatar src={user.avatarUrl} />
                 </AvatarWrap>
 
-                <Tooltip placement="bottom" title="Logout">
-                  <Button onClick={logOut} icon="logout" size="large" />
-                </Tooltip>
+                <Button onClick={logOut} icon={<LogoutIcon />} />
               </UserWrap>
             ) : (
-              <Button type="primary" onClick={logIn} icon="google">
+              <Button onClick={logIn} leftIcon={<GoogleIcon />}>
                 {isDesktopOrHigher ? 'Login with Google' : 'Login'}
               </Button>
             )}

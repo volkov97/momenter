@@ -1,19 +1,17 @@
 import React, { useRef, useEffect } from 'react';
 import ym from 'react-yandex-metrika';
-import useReactRouter from 'use-react-router';
 import queryString from 'query-string';
-import { Typography, Divider } from 'antd';
-import moment from 'moment';
+import { addMinutes } from 'date-fns';
 
 import { Container } from 'src/components/Layout/Container';
 import { DateSelector } from 'src/components/DateSelector/DateSelector';
+import { Typography } from 'src/components-basic/Typography';
+import { Divider } from 'src/components-basic/Divider';
 
 import { Wrap } from './Home.styled';
 import { format } from 'date-fns';
 
 export const Home: React.FC = () => {
-  const { history } = useReactRouter();
-
   const mountedTsRef = useRef<number>(0);
 
   useEffect(() => {
@@ -31,14 +29,15 @@ export const Home: React.FC = () => {
         </Typography.Paragraph>
 
         <DateSelector
-          defaultDate={moment().add(10, 'minutes')}
+          defaultDate={addMinutes(new Date(), 10)}
           buttonText="Start countdown"
-          onSubmit={(ts: number) => {
+          linkCreator={(date: Date) =>
+            `/countdown?${queryString.stringify({ ts: date.getTime() })}`
+          }
+          onSubmit={() => {
             ym('reachGoal', 'btn-countdown-start-press', {
               'btn-countdown-start-press-ts': performance.now() - mountedTsRef.current,
             });
-
-            history.push(`/countdown?${queryString.stringify({ ts })}`);
           }}
         />
       </Wrap>
@@ -58,15 +57,18 @@ export const Home: React.FC = () => {
         <DateSelector
           buttonText="Show info"
           showTime={false}
-          onSubmit={(ts: number) => {
-            const dayUrl = format(ts, 'MMMM-do-yyyy').toLowerCase();
+          linkCreator={(date: Date) => {
+            const dayUrl = format(date, 'MMMM-do-yyyy').toLowerCase();
+
+            return `/calendar/${dayUrl}`;
+          }}
+          onSubmit={(date: Date) => {
+            const dayUrl = format(date, 'MMMM-do-yyyy').toLowerCase();
 
             ym('reachGoal', 'btn-show-day-info-press', {
               'btn-show-day-info-press-ts': performance.now() - mountedTsRef.current,
               'btn-show-day-info-press-value': dayUrl,
             });
-
-            history.push(`/calendar/${dayUrl}`);
           }}
         />
       </Wrap>
