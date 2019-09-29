@@ -24,6 +24,12 @@ export const Toolbar = styled.div`
   }
 `;
 
+export const ToolbarTitle = styled.div`
+  ${media.mobile} {
+    margin-bottom: 5px;
+  }
+`;
+
 export const Content = styled.div`
   padding: 20px 0;
 

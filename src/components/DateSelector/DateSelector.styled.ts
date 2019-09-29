@@ -7,6 +7,8 @@ export const Wrap = styled.div`
 
   ${media.mobile} {
     flex-direction: column;
+
+    align-items: flex-start;
   }
 `;
 

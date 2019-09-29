@@ -32,7 +32,7 @@ export const DateSelector: React.FC<CountdownOptionsProps> = ({
   return (
     <Wrap>
       <Column>
-        <DateTimePicker showTime={showTime} onChange={onDateChange} />
+        <DateTimePicker showTime={showTime} defaultDate={defaultDate} onChange={onDateChange} />
       </Column>
 
       <Column>

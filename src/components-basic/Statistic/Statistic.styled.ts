@@ -3,6 +3,8 @@ import styled from 'styled-components';
 export const Wrap = styled.div``;
 
 export const Title = styled.div`
+  margin-bottom: 5px;
+
   font-size: 14px;
   color: rgba(0, 0, 0, 0.45);
 `;

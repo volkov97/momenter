@@ -9,6 +9,9 @@ import { Button, ButtonGroup } from 'src/components-basic/Button';
 import { Divider } from 'src/components-basic/Divider';
 import { Container } from 'src/components/Layout/Container';
 import { ShareLinks } from 'src/components/ShareLinks/ShareLinks';
+import { mediaQuerySizes } from 'src/lib/styles/mixins/media';
+import { LeftArrowIcon } from 'src/components/__icons__/LeftArrowIcon';
+import { RightArrowIcon } from 'src/components/__icons__/RightArrowIcon';
 
 import { CountdownToDay } from './CountdownToDay/CountdownToDay';
 
@@ -19,10 +22,14 @@ import {
   daysUntilEndOfYear,
 } from 'src/lib/helpers/dayInfo';
 
-import { Toolbar, Content, Info, InfoItem, SiblingDays } from './CalendarDayCountdown.styled';
-import { mediaQuerySizes } from 'src/lib/styles/mixins/media';
-import { LeftArrowIcon } from 'src/components/__icons__/LeftArrowIcon';
-import { RightArrowIcon } from 'src/components/__icons__/RightArrowIcon';
+import {
+  Toolbar,
+  Content,
+  Info,
+  InfoItem,
+  SiblingDays,
+  ToolbarTitle,
+} from './CalendarDayCountdown.styled';
 
 export const CalendarDayCountdown: React.FC = () => {
   const {
@@ -36,9 +43,9 @@ export const CalendarDayCountdown: React.FC = () => {
   const stringDate = format(jsDate, 'MMMM do');
 
   const nextDay = addDays(jsDate, 1);
-  const nextDayString = format(nextDay, 'MMMM do');
+  const nextDayString = format(nextDay, 'MMM do');
   const prevDay = subDays(jsDate, 1);
-  const prevDayString = format(prevDay, 'MMMM do');
+  const prevDayString = format(prevDay, 'MMM do');
 
   useEffect(() => {
     document.title = `How much time left until ${stringDate}?`;
@@ -47,7 +54,9 @@ export const CalendarDayCountdown: React.FC = () => {
   return (
     <Container>
       <Toolbar>
-        <Typography.Title level={isMobile ? 3 : 2}>{stringDate}</Typography.Title>
+        <ToolbarTitle>
+          <Typography.Title level={isMobile ? 3 : 2}>{stringDate}</Typography.Title>
+        </ToolbarTitle>
 
         <SiblingDays>
           <ButtonGroup>

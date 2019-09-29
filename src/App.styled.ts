@@ -4,7 +4,6 @@ import { flatpickr } from './lib/styles/libs/flatpickr';
 
 export const GlobalStyles = createGlobalStyle`
   ${normalize()}
-
   ${flatpickr}
 
   * {
@@ -20,6 +19,7 @@ export const GlobalStyles = createGlobalStyle`
 
     font-family: 'Inter', sans-serif;
     font-size: 16px;
+    line-height: 1.5;
     color: #393e42;
 
     background-color: #fff;

@@ -1,7 +1,11 @@
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import { buttonReset } from 'src/lib/styles/mixins/buttonReset';
+
 const buttonStyles = css`
+  ${buttonReset}
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,7 +65,9 @@ export const ButtonIconWrap = styled(ButtonWrap)`
   }
 `;
 
-export const ButtonIcon = styled.div<{ margin: 'left' | 'right' }>`
+export const ButtonIcon = styled.span<{ margin: 'left' | 'right' }>`
+  display: inline-block;
+
   ${({ margin }) => `margin-${margin}: 15px`};
 
   font-size: 0;

@@ -15,6 +15,8 @@ export const Input = styled.input`
 
   transition: all 0.3s;
 
+  appearance: none;
+
   &:focus,
   &:hover {
     outline: 0;

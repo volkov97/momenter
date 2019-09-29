@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import ym from 'react-yandex-metrika';
 import queryString from 'query-string';
-import { addMinutes } from 'date-fns';
+import { addMinutes, format } from 'date-fns';
 
 import { Container } from 'src/components/Layout/Container';
 import { DateSelector } from 'src/components/DateSelector/DateSelector';
@@ -9,7 +9,6 @@ import { Typography } from 'src/components-basic/Typography';
 import { Divider } from 'src/components-basic/Divider';
 
 import { Wrap } from './Home.styled';
-import { format } from 'date-fns';
 
 export const Home: React.FC = () => {
   const mountedTsRef = useRef<number>(0);
