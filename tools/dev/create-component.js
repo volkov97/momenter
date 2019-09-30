@@ -15,7 +15,7 @@ interface ${name}Props {
 }
 
 export const ${name}: React.FC<${name}Props> = () => (
-  <div>${name}</div>
+  <Wrap>${name}</Wrap>
 );
 `);
 

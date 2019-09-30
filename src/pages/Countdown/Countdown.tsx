@@ -12,15 +12,15 @@ export const Countdown: React.FC = () => {
   const {
     location: { search },
   } = useReactRouter();
-  const { ts } = queryString.parse(search);
+  const { ts, timer } = queryString.parse(search);
 
   const {
     value: { h, m, s, ms },
   } = useTimer({
-    initialTime: parseInt(ts as string) - Date.now(),
+    initialTime: ts ? parseInt(ts as string) - Date.now() : parseInt(timer),
     lastUnit: 'h',
     direction: 'backward',
-    timeToUpdate: 200,
+    timeToUpdate: 500,
   });
 
   const valueString = `${padUnit(h)}:${padUnit(m)}:${padUnit(ms >= 500 ? s + 1 : s)}`;
@@ -30,7 +30,13 @@ export const Countdown: React.FC = () => {
   }, [valueString]);
 
   useEffect(() => {
-    ym('params', { 'countdown-param': parseInt(ts as string) });
+    if (ts) {
+      ym('params', { 'countdown-param': parseInt(ts as string) });
+    }
+
+    if (timer) {
+      ym('params', { 'timer-param': parseInt(timer as string) });
+    }
   }, []);
 
   return <Wrap>{valueString}</Wrap>;

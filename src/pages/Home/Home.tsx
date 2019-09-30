@@ -3,6 +3,7 @@ import ym from 'react-yandex-metrika';
 import queryString from 'query-string';
 import { addMinutes, format } from 'date-fns';
 
+import { TimerSelector } from 'src/components/TimerSelector';
 import { Container } from 'src/components/Layout/Container';
 import { DateSelector } from 'src/components/DateSelector/DateSelector';
 import { Typography } from 'src/components-basic/Typography';
@@ -19,6 +20,18 @@ export const Home: React.FC = () => {
 
   return (
     <Container>
+      <Wrap>
+        <Typography.Paragraph>
+          Just want to start a timer?
+          <br />
+          Choose time form options above or write countdown time yourself.
+        </Typography.Paragraph>
+
+        <TimerSelector />
+      </Wrap>
+
+      <Divider />
+
       <Wrap>
         <Typography.Paragraph>
           Are you waiting for any events?
