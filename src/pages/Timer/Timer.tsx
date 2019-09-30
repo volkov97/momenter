@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import ym from 'react-yandex-metrika';
-import useReactRouter from 'use-react-router';
 import { useTimer } from 'react-compound-timer';
+import useReactRouter from 'use-react-router';
+import ym from 'react-yandex-metrika';
 import queryString from 'query-string';
 
 import { padUnit } from 'src/lib/helpers/padUnit';
 
-import { Wrap } from './Countdown.styled';
+import { Wrap } from './Timer.styled';
 import { Typography } from 'src/components-basic/Typography';
 
-export const Countdown: React.FC = () => {
+export const Timer = () => {
   const {
     location: { search },
   } = useReactRouter();
@@ -19,7 +19,7 @@ export const Countdown: React.FC = () => {
   const {
     value: { h, m, s, ms },
   } = useTimer({
-    initialTime: ts - Date.now(),
+    initialTime: ts,
     lastUnit: 'h',
     direction: 'backward',
     timeToUpdate: 500,
@@ -33,7 +33,7 @@ export const Countdown: React.FC = () => {
 
   useEffect(() => {
     if (ts) {
-      ym('params', { 'countdown-param': ts });
+      ym('params', { 'timer-param': ts });
     }
   }, []);
 

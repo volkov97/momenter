@@ -22,9 +22,7 @@ export const TimerSelector: React.FC = () => {
         {timerValues.map(timerValue => {
           return (
             <TimerOption key={timerValue}>
-              <Button linkTo={`/countdown?timer=${timerValue * 60 * 1000}`}>
-                {timerValue} min
-              </Button>
+              <Button linkTo={`/timer?ts=${timerValue * 60 * 1000}`}>{timerValue} min</Button>
             </TimerOption>
           );
         })}
@@ -41,7 +39,7 @@ export const TimerSelector: React.FC = () => {
         </InputMask>
 
         <TimeStart>
-          <Button linkTo={`/countdown?timer=${writtenTs}`}>Start timer</Button>
+          <Button linkTo={`/timer?ts=${writtenTs}`}>Start timer</Button>
         </TimeStart>
       </TimeSetter>
     </Wrap>

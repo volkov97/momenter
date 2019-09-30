@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { normalize } from 'polished';
 import { flatpickr } from './lib/styles/libs/flatpickr';
 
@@ -10,6 +10,7 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  html,
   body,
   #root {
     width: 100%;
@@ -32,4 +33,18 @@ export const GlobalStyles = createGlobalStyle`
   a {
     text-decoration: none;
   }
+`;
+
+export const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  min-height: 100%;
+`;
+
+export const PageContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  flex-grow: 1;
 `;

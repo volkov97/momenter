@@ -7,6 +7,8 @@ export const Container = styled.div`
 
   max-width: 840px;
 
+  width: 100%;
+
   ${media.tablet} {
     max-width: 100%;
   }

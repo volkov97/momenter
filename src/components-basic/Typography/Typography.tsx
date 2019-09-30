@@ -1,6 +1,13 @@
 import React from 'react';
 
-import { ParagraphWrap, Title1Wrap, Title2Wrap, Title3Wrap, TextWrap } from './Typography.styled';
+import {
+  ParagraphWrap,
+  Title1Wrap,
+  Title2Wrap,
+  Title3Wrap,
+  TextWrap,
+  NumberWrap,
+} from './Typography.styled';
 
 const Paragraph: React.FC = ({ children }) => <ParagraphWrap>{children}</ParagraphWrap>;
 
@@ -30,8 +37,11 @@ interface TextProps {
 
 export const Text: React.FC<TextProps> = ({ children }) => <TextWrap>{children}</TextWrap>;
 
+export const NumberFullscreen: React.FC = ({ children }) => <NumberWrap>{children}</NumberWrap>;
+
 export const Typography = {
   Title,
   Paragraph,
   Text,
+  NumberFullscreen,
 };
