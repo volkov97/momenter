@@ -1,5 +1,8 @@
-import React, { useReducer, useContext, useMemo, useCallback } from 'react';
+import React, { useReducer, useContext, useMemo, useCallback, useEffect } from 'react';
+import useReactRouter from 'use-react-router';
 import { Unit } from 'react-compound-timer';
+import queryString from 'query-string';
+import { fonts } from 'src/config/fonts';
 
 export type FontSize = 1 | 2 | 3 | 4 | 5;
 
@@ -15,7 +18,7 @@ interface BigNumberOptionsType {
 
 const initialBigNumberOptionsState: BigNumberOptionsType = {
   lastUnit: 'h',
-  fontFamily: 'Arial',
+  fontFamily: fonts.trebuchet,
   fontSize: 3,
   fontColor: '#000',
   backgroundColor: '#fff',
@@ -55,6 +58,7 @@ export function useBigNumberOptions() {
 }
 
 type Action =
+  | { type: 'init'; value: BigNumberOptionsType }
   | { type: 'changeLastUnit'; unit: Unit }
   | { type: 'changeFontFamily'; family: string }
   | { type: 'changeFontSize'; size: FontSize }
@@ -68,6 +72,8 @@ function bigNumberOptionsReducer(
   action: Action,
 ): BigNumberOptionsType {
   switch (action.type) {
+    case 'init':
+      return action.value;
     case 'changeLastUnit':
       return {
         ...state,
@@ -110,7 +116,15 @@ function bigNumberOptionsReducer(
 }
 
 export const BigNumberOptionsProvider: React.FC = ({ children }) => {
-  const [state, dispatch] = useReducer(bigNumberOptionsReducer, initialBigNumberOptionsState);
+  const { history } = useReactRouter();
+  const optionsFromUrl: { options?: string } = queryString.parse(location.search);
+
+  const [state, dispatch] = useReducer(
+    bigNumberOptionsReducer,
+    optionsFromUrl.options
+      ? JSON.parse(decodeURI(optionsFromUrl.options))
+      : initialBigNumberOptionsState,
+  );
 
   const changeLastUnit = useCallback(
     (unit: Unit) => dispatch({ type: 'changeLastUnit', unit }),
@@ -146,6 +160,15 @@ export const BigNumberOptionsProvider: React.FC = ({ children }) => {
     (value: number) => dispatch({ type: 'changeUpdateInterval', value }),
     [],
   );
+
+  useEffect(() => {
+    history.push(
+      `${location.pathname}?${queryString.stringify({
+        ...queryString.parse(location.search),
+        options: encodeURI(JSON.stringify(state)),
+      })}`,
+    );
+  }, [state]);
 
   const value = useMemo(
     () => ({

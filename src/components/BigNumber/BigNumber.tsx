@@ -10,7 +10,14 @@ interface BigNumberProps {
 }
 
 export const BigNumber: React.FC<BigNumberProps> = ({ ts }) => {
-  const { fontColor, backgroundColor, fontSize, lastUnit, updateInterval } = useBigNumberOptions();
+  const {
+    fontColor,
+    backgroundColor,
+    fontSize,
+    lastUnit,
+    updateInterval,
+    fontFamily,
+  } = useBigNumberOptions();
 
   const {
     value,
@@ -31,8 +38,8 @@ export const BigNumber: React.FC<BigNumberProps> = ({ ts }) => {
   }, [updateInterval]);
 
   return (
-    <Wrap style={{ backgroundColor }}>
-      <TextWrap style={{ color: fontColor }} fontSize={fontSize}>
+    <Wrap id="bigNumber" style={{ backgroundColor }}>
+      <TextWrap style={{ color: fontColor, fontFamily }} fontSize={fontSize}>
         <TimeValue value={value} />
       </TextWrap>
     </Wrap>

@@ -20,7 +20,7 @@ export const Row = styled.div`
 `;
 
 export const Col = styled.div`
-  margin-right: 15px;
+  margin-right: 20px;
 
   flex-shrink: 0;
 
@@ -29,6 +29,8 @@ export const Col = styled.div`
   }
 
   ${media.mobile} {
+    margin-right: 15px;
+
     &:first-child {
       margin-left: 15px;
     }

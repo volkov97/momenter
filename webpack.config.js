@@ -5,7 +5,6 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const tsImportPluginFactory = require('ts-import-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const WebpackDeepScopeAnalysisPlugin = require('webpack-deep-scope-plugin').default;
 
 const packageJSON = require('./package.json');
 
@@ -83,7 +82,6 @@ module.exports = ({ mode }) => {
             defaultSizes: 'gzip',
           })
         : null,
-      mode === 'production' ? new WebpackDeepScopeAnalysisPlugin() : null,
     ].filter(Boolean),
     devServer: {
       contentBase: path.join(__dirname, 'static'),

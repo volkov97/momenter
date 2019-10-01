@@ -1,13 +1,32 @@
 import React from 'react';
-import { InputNumber, Button, Radio, Dropdown, Tabs, Select, Checkbox, Slider } from 'antd';
+import useReactRouter from 'use-react-router';
+import {
+  InputNumber,
+  Button,
+  Radio,
+  Dropdown,
+  Tabs,
+  Select,
+  Checkbox,
+  Slider,
+  message,
+  Input,
+} from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
-import { TwitterPicker } from 'react-color';
+import { ChromePicker } from 'react-color';
 import { Unit } from 'react-compound-timer';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { Control } from '../Control';
 import { useBigNumberOptions, FontSize } from 'src/lib/providers/BigNumberOptionsProvider';
 
 import { Wrap, Row, Col, BlockHeight } from './NumbersViewSettings.styled';
+import { sortedFonts, fonts, getReadableFontName } from 'src/config/fonts';
+import { useFullscreen } from 'src/lib/providers/FullscreenProvider';
+
+const copySuccess = () => {
+  message.success('Link to this countdown was copied successfully!');
+};
 
 export const NumbersViewSettings: React.FC = () => {
   const {
@@ -21,11 +40,37 @@ export const NumbersViewSettings: React.FC = () => {
     changeLastUnit,
     changeUpdateInterval,
     updateInterval,
+    changeFontFamily,
+    fontFamily,
+    showMs,
   } = useBigNumberOptions();
+  const { enterFullscreen } = useFullscreen();
+  const { location } = useReactRouter();
 
   return (
     <Wrap>
-      <Tabs defaultActiveKey="1" animated={false}>
+      <Tabs
+        defaultActiveKey="1"
+        animated={false}
+        tabBarExtraContent={
+          <React.Fragment>
+            <Button
+              shape="circle"
+              icon="fullscreen"
+              onClick={() => enterFullscreen(document.getElementById('bigNumber') as HTMLElement)}
+            />
+
+            <CopyToClipboard
+              text={`${window.location.origin}${location.pathname}${location.search}`}
+              onCopy={copySuccess}
+            >
+              <Button type="link" icon="copy">
+                Save link
+              </Button>
+            </CopyToClipboard>
+          </React.Fragment>
+        }
+      >
         <Tabs.TabPane tab="Units" key="1">
           <Row>
             <Col>
@@ -50,6 +95,7 @@ export const NumbersViewSettings: React.FC = () => {
                 content={
                   <BlockHeight>
                     <Checkbox
+                      checked={showMs}
                       onChange={(e: CheckboxChangeEvent) => changeMsVisibility(e.target.checked)}
                     >
                       Show milliseconds
@@ -60,7 +106,7 @@ export const NumbersViewSettings: React.FC = () => {
             </Col>
             <Col>
               <Control
-                title="Update time"
+                title="Update time (ms)"
                 content={
                   <BlockHeight>
                     <Slider
@@ -83,10 +129,18 @@ export const NumbersViewSettings: React.FC = () => {
               <Control
                 title="Family"
                 content={
-                  <Select defaultValue="arial" style={{ width: 120 }}>
-                    <Select.Option value="arial">Arial</Select.Option>
-                    <Select.Option value="times">Times New Roman</Select.Option>
-                    <Select.Option value="hevita">Hevita</Select.Option>
+                  <Select
+                    defaultValue="arial"
+                    style={{ width: 120 }}
+                    dropdownMatchSelectWidth={false}
+                    value={getReadableFontName(fontFamily)}
+                    onChange={(val: string) => changeFontFamily(fonts[val])}
+                  >
+                    {sortedFonts.map(font => (
+                      <Select.Option key={font[0]} value={font[0]}>
+                        {font[2]}
+                      </Select.Option>
+                    ))}
                   </Select>
                 }
               />
@@ -97,13 +151,13 @@ export const NumbersViewSettings: React.FC = () => {
                 content={
                   <Dropdown
                     overlay={
-                      <TwitterPicker
+                      <ChromePicker
                         color={fontColor}
-                        onChange={color => changeFontColor(color.hex)}
+                        onChangeComplete={color => changeFontColor(color.hex)}
                       />
                     }
                   >
-                    <Button>Choose color</Button>
+                    <Input value={fontColor} />
                   </Dropdown>
                 }
               />
@@ -131,13 +185,13 @@ export const NumbersViewSettings: React.FC = () => {
                 content={
                   <Dropdown
                     overlay={
-                      <TwitterPicker
+                      <ChromePicker
                         color={backgroundColor}
-                        onChange={color => changeBackgroundColor(color.hex)}
+                        onChangeComplete={color => changeBackgroundColor(color.hex)}
                       />
                     }
                   >
-                    <Button>Choose color</Button>
+                    <Input value={backgroundColor} />
                   </Dropdown>
                 }
               />

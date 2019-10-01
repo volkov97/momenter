@@ -4,3 +4,6 @@ export { default as ArrowDownOutline } from '@ant-design/icons/lib/outline/DownO
 export { default as ArrowUpOutline } from '@ant-design/icons/lib/outline/UpOutline';
 export { default as RightOutline } from '@ant-design/icons/lib/outline/RightOutline';
 export { default as LeftOutline } from '@ant-design/icons/lib/outline/LeftOutline';
+export { default as CopyOutline } from '@ant-design/icons/lib/outline/CopyOutline';
+export { default as CheckCircleFill } from '@ant-design/icons/lib/fill/CheckCircleFill';
+export { default as FullscreenOutline } from '@ant-design/icons/lib/outline/FullscreenOutline';

@@ -5,6 +5,9 @@ import queryString from 'query-string';
 
 import { Wrap } from './Countdown.styled';
 import { BigNumber } from 'src/components/BigNumber';
+import { Container } from 'src/components/Layout/Container';
+import { BigNumberOptionsProvider } from 'src/lib/providers/BigNumberOptionsProvider';
+import { NumbersViewSettings } from 'src/components/NumbersViewSettings';
 
 export const Countdown: React.FC = () => {
   const {
@@ -20,8 +23,14 @@ export const Countdown: React.FC = () => {
   }, []);
 
   return (
-    <Wrap>
-      <BigNumber ts={ts - Date.now()} />
-    </Wrap>
+    <BigNumberOptionsProvider>
+      <Container>
+        <NumbersViewSettings />
+      </Container>
+
+      <Wrap>
+        <BigNumber ts={ts - Date.now()} />
+      </Wrap>
+    </BigNumberOptionsProvider>
   );
 };
