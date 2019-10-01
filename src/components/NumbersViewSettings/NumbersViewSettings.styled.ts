@@ -2,10 +2,11 @@ import styled from 'styled-components';
 import { media } from 'src/lib/styles/mixins/media';
 
 export const Wrap = styled.div`
-  border-bottom: 1px solid #e8e8e8;
+  padding: 25px 0;
 
   ${media.mobile} {
     margin: 0 -20px;
+    padding: 0;
   }
 `;
 
@@ -21,6 +22,8 @@ export const Row = styled.div`
 export const Col = styled.div`
   margin-right: 15px;
 
+  flex-shrink: 0;
+
   &:last-child {
     margin-right: 0;
   }
@@ -34,4 +37,11 @@ export const Col = styled.div`
       padding-right: 15px;
     }
   }
+`;
+
+export const BlockHeight = styled.div`
+  display: flex;
+  align-items: center;
+
+  height: 30px;
 `;

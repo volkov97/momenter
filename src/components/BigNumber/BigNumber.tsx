@@ -1,5 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useTimer } from 'react-compound-timer';
 
-import { Wrap } from './BigNumber.styled';
+import { Wrap, TextWrap } from './BigNumber.styled';
+import { useBigNumberOptions } from 'src/lib/providers/BigNumberOptionsProvider';
+import { TimeValue } from '../TimeValue';
 
-export const BigNumber: React.FC = ({ children }) => <Wrap>{children}</Wrap>;
+interface BigNumberProps {
+  ts: number;
+}
+
+export const BigNumber: React.FC<BigNumberProps> = ({ ts }) => {
+  const { fontColor, backgroundColor, fontSize, lastUnit, updateInterval } = useBigNumberOptions();
+
+  const {
+    value,
+    controls: { setLastUnit, setTimeToUpdate },
+  } = useTimer({
+    initialTime: ts,
+    lastUnit,
+    direction: 'backward',
+    timeToUpdate: updateInterval,
+  });
+
+  useEffect(() => {
+    setLastUnit(lastUnit);
+  }, [lastUnit]);
+
+  useEffect(() => {
+    setTimeToUpdate(updateInterval);
+  }, [updateInterval]);
+
+  return (
+    <Wrap style={{ backgroundColor }}>
+      <TextWrap style={{ color: fontColor }} fontSize={fontSize}>
+        <TimeValue value={value} />
+      </TextWrap>
+    </Wrap>
+  );
+};

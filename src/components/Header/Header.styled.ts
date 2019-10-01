@@ -20,7 +20,8 @@ export const EmblemWrap = styled.div`
   display: flex;
   align-items: center;
 
-  h1 {
+  h1,
+  h3 {
     margin: 0;
   }
 `;

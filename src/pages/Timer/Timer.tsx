@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { useTimer } from 'react-compound-timer';
 import useReactRouter from 'use-react-router';
 import ym from 'react-yandex-metrika';
 import queryString from 'query-string';
 
-import { padUnit } from 'src/lib/helpers/padUnit';
+import { BigNumberOptionsProvider } from 'src/lib/providers/BigNumberOptionsProvider';
 
 import { Wrap } from './Timer.styled';
 import { NumbersViewSettings } from 'src/components/NumbersViewSettings';
@@ -18,21 +17,6 @@ export const Timer = () => {
   const queryParams = queryString.parse(search);
   const ts = parseInt(queryParams.ts);
 
-  const {
-    value: { h, m, s, ms },
-  } = useTimer({
-    initialTime: ts,
-    lastUnit: 'h',
-    direction: 'backward',
-    timeToUpdate: 500,
-  });
-
-  const valueString = `${padUnit(h)}:${padUnit(m)}:${padUnit(ms >= 500 ? s + 1 : s)}`;
-
-  useEffect(() => {
-    document.title = valueString;
-  }, [valueString]);
-
   useEffect(() => {
     if (ts) {
       ym('params', { 'timer-param': ts });
@@ -40,14 +24,14 @@ export const Timer = () => {
   }, []);
 
   return (
-    <React.Fragment>
+    <BigNumberOptionsProvider>
       <Container>
         <NumbersViewSettings />
       </Container>
 
       <Wrap>
-        <BigNumber>{valueString}</BigNumber>
+        <BigNumber ts={ts} />
       </Wrap>
-    </React.Fragment>
+    </BigNumberOptionsProvider>
   );
 };

@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const Wrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
 
   flex-grow: 1;
+
+  border-top: 1px solid #e8e8e8;
 `;
