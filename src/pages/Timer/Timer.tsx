@@ -9,6 +9,7 @@ import { padUnit } from 'src/lib/helpers/padUnit';
 import { Wrap } from './Timer.styled';
 import { NumbersViewSettings } from 'src/components/NumbersViewSettings';
 import { BigNumber } from 'src/components/BigNumber';
+import { Container } from 'src/components/Layout/Container';
 
 export const Timer = () => {
   const {
@@ -40,7 +41,9 @@ export const Timer = () => {
 
   return (
     <React.Fragment>
-      <NumbersViewSettings />
+      <Container>
+        <NumbersViewSettings />
+      </Container>
 
       <Wrap>
         <BigNumber>{valueString}</BigNumber>
