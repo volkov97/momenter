@@ -1,9 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import InputMask from 'react-input-mask';
+import { Input } from 'antd';
 
-import { Wrap, TimerOptions, TimerOption, TimeSetter, TimeStart } from './TimerSelector.styled';
 import { Button } from 'src/components-basic/Button';
-import { Input } from 'src/components-basic/Input';
+
+import {
+  Wrap,
+  TimerOptions,
+  TimerOption,
+  TimeSetter,
+  TimeInput,
+  TimeStart,
+} from './TimerSelector.styled';
 
 const timerValues = [1, 5, 10, 15, 20, 30, 60];
 
@@ -28,15 +36,17 @@ export const TimerSelector: React.FC = () => {
         })}
       </TimerOptions>
       <TimeSetter>
-        <InputMask
-          mask="99:99:99"
-          maskPlaceholder="hh:mm:ss"
-          alwaysShowMask={true}
-          value={writtenTime}
-          onChange={e => setWrittenTime(e.target.value)}
-        >
-          <Input />
-        </InputMask>
+        <TimeInput>
+          <InputMask
+            mask="99:99:99"
+            maskPlaceholder="hh:mm:ss"
+            alwaysShowMask={true}
+            value={writtenTime}
+            onChange={e => setWrittenTime(e.target.value)}
+          >
+            <Input />
+          </InputMask>
+        </TimeInput>
 
         <TimeStart>
           <Button linkTo={`/timer?ts=${writtenTs}`}>Start timer</Button>

@@ -2,12 +2,11 @@ import React, { useRef, useEffect } from 'react';
 import ym from 'react-yandex-metrika';
 import queryString from 'query-string';
 import { addMinutes, format } from 'date-fns';
+import { Typography, Divider } from 'antd';
 
 import { TimerSelector } from 'src/components/TimerSelector';
 import { Container } from 'src/components/Layout/Container';
 import { DateSelector } from 'src/components/DateSelector/DateSelector';
-import { Typography } from 'src/components-basic/Typography';
-import { Divider } from 'src/components-basic/Divider';
 
 import { Wrap } from './Home.styled';
 

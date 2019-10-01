@@ -7,7 +7,7 @@ import queryString from 'query-string';
 import { padUnit } from 'src/lib/helpers/padUnit';
 
 import { Wrap } from './Countdown.styled';
-import { Typography } from 'src/components-basic/Typography';
+import { BigNumber } from 'src/components/BigNumber';
 
 export const Countdown: React.FC = () => {
   const {
@@ -39,7 +39,7 @@ export const Countdown: React.FC = () => {
 
   return (
     <Wrap>
-      <Typography.NumberFullscreen>{valueString}</Typography.NumberFullscreen>
+      <BigNumber>{valueString}</BigNumber>
     </Wrap>
   );
 };

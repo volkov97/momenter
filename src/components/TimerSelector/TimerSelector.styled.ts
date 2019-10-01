@@ -23,6 +23,8 @@ export const TimeSetter = styled.div`
   display: flex;
 `;
 
+export const TimeInput = styled.div``;
+
 export const TimeStart = styled.div`
   margin-left: 10px;
 `;

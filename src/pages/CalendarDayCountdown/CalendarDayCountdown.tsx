@@ -3,10 +3,9 @@ import { useMediaQuery } from 'react-responsive';
 import useReactRouter from 'use-react-router';
 import { parse, format, addDays, subDays } from 'date-fns';
 
-import { Typography } from 'src/components-basic/Typography';
-import { Statistic } from 'src/components-basic/Statistic';
+import { Typography, Divider } from 'antd';
+import { Statistic } from 'src/components/Statistic';
 import { Button, ButtonGroup } from 'src/components-basic/Button';
-import { Divider } from 'src/components-basic/Divider';
 import { Container } from 'src/components/Layout/Container';
 import { ShareLinks } from 'src/components/ShareLinks/ShareLinks';
 import { mediaQuerySizes } from 'src/lib/styles/mixins/media';

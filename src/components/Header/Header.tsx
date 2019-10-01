@@ -1,13 +1,8 @@
 import React from 'react';
-import { Button } from 'src/components-basic/Button';
-import { Avatar } from 'src/components-basic/Avatar';
-import { Typography } from 'src/components-basic/Typography';
-import { Spin } from 'src/components-basic/Spin';
+import { Avatar, Button, Typography, Spin } from 'antd';
 
 import { Container } from '../Layout/Container';
 import { MomenterIcon } from '../__icons__/MomenterIcon';
-import { GoogleIcon } from '../__icons__/GoogleIcon';
-import { LogoutIcon } from '../__icons__/LogoutIcon';
 
 import { useCurrentUser } from 'src/lib/providers/CurrentUserProvider';
 import { useDesktopOrHigher } from 'src/lib/hooks/useMedia';
@@ -55,10 +50,10 @@ export const Header = () => {
                   <Avatar src={user.avatarUrl} />
                 </AvatarWrap>
 
-                <Button onClick={logOut} icon={<LogoutIcon />} />
+                <Button onClick={logOut} icon="logout" />
               </UserWrap>
             ) : (
-              <Button onClick={logIn} leftIcon={<GoogleIcon />}>
+              <Button onClick={logIn} icon="google">
                 {isDesktopOrHigher ? 'Login with Google' : 'Login'}
               </Button>
             )}

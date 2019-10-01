@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import flatpickr from 'flatpickr';
-
-import { Input } from '../Input';
+import { Input } from 'antd';
 
 interface DateTimePickerProps {
   showTime?: boolean;
@@ -14,10 +13,10 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
   defaultDate,
   onChange,
 }) => {
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = React.useRef<Input>(null);
 
   useEffect(() => {
-    const dateTimeInput = flatpickr(inputRef.current as Node, {
+    const dateTimeInput = flatpickr((inputRef.current as Input).input, {
       defaultDate: defaultDate || new Date(),
       enableTime: showTime,
       onChange: dates => onChange && onChange(dates[0]),
@@ -27,7 +26,7 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
     return () => {
       dateTimeInput.destroy();
     };
-  }, []);
+  });
 
   return <Input ref={inputRef} />;
 };

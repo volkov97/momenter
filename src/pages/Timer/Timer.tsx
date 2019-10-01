@@ -7,7 +7,8 @@ import queryString from 'query-string';
 import { padUnit } from 'src/lib/helpers/padUnit';
 
 import { Wrap } from './Timer.styled';
-import { Typography } from 'src/components-basic/Typography';
+import { NumbersViewSettings } from 'src/components/NumbersViewSettings';
+import { BigNumber } from 'src/components/BigNumber';
 
 export const Timer = () => {
   const {
@@ -38,8 +39,12 @@ export const Timer = () => {
   }, []);
 
   return (
-    <Wrap>
-      <Typography.NumberFullscreen>{valueString}</Typography.NumberFullscreen>
-    </Wrap>
+    <React.Fragment>
+      <NumbersViewSettings />
+
+      <Wrap>
+        <BigNumber>{valueString}</BigNumber>
+      </Wrap>
+    </React.Fragment>
   );
 };
