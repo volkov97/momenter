@@ -31,7 +31,7 @@ ReactDOM.render(
   document.getElementById('root'),
 );
 
-ga.initialize('UA-146479113-1', {
+ga.initialize('UA-73219202-5', {
   debug: !['momenter-app.ru', 'momenter-app.com', 'momenter.app'].includes(
     window.location.hostname,
   ),
