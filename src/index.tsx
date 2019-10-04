@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { YMInitializer } from 'react-yandex-metrika';
+import ga from 'react-ga';
 
 import { CurrentUserProvider } from './lib/providers/CurrentUserProvider';
 import { FullscreenProvider } from './lib/providers/FullscreenProvider';
@@ -29,3 +30,9 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById('root'),
 );
+
+ga.initialize('UA-146479113-1', {
+  debug: !['momenter-app.ru', 'momenter-app.com', 'momenter.app'].includes(
+    window.location.hostname,
+  ),
+});

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import ga from 'react-ga';
 import ym from 'react-yandex-metrika';
 import useReactRouter from 'use-react-router';
 
@@ -17,5 +18,6 @@ export function useHitNavigationToMetrika() {
     }
 
     ym('hit', pathname);
+    ga.pageview(pathname);
   }, [pathname]);
 }

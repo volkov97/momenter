@@ -17,6 +17,7 @@ import { ChromePicker } from 'react-color';
 import { Unit } from 'react-compound-timer';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import ym from 'react-yandex-metrika';
+import ga from 'react-ga';
 
 import { Control } from '../Control';
 import { useBigNumberOptions, FontSize } from 'src/lib/providers/BigNumberOptionsProvider';
@@ -25,8 +26,14 @@ import { Wrap, Row, Col, BlockHeight } from './NumbersViewSettings.styled';
 import { sortedFonts, fonts, getReadableFontName } from 'src/config/fonts';
 import { useFullscreen } from 'src/lib/providers/FullscreenProvider';
 
-function ymOption(options: { [key: string]: string | number }) {
-  ym('params', { options });
+function track(name: string, value: string | number) {
+  ym('params', { options: { [name]: value } });
+
+  ga.event({
+    category: 'options',
+    action: name,
+    [typeof value === 'string' ? 'label' : 'value']: value,
+  });
 }
 
 export const NumbersViewSettings: React.FC = () => {
@@ -61,7 +68,7 @@ export const NumbersViewSettings: React.FC = () => {
                 shape="circle"
                 icon="fullscreen"
                 onClick={() => {
-                  ymOption({ fullscreen: 'enable' });
+                  track('fullscreen', 'enable');
                   enterFullscreen(document.getElementById('bigNumber') as HTMLElement);
                 }}
               />
@@ -70,7 +77,7 @@ export const NumbersViewSettings: React.FC = () => {
             <CopyToClipboard
               text={linkToCopy}
               onCopy={() => {
-                ymOption({ copy: linkToCopy });
+                track('copy', linkToCopy);
                 message.success('Link to this countdown was copied successfully!');
               }}
             >
@@ -93,7 +100,7 @@ export const NumbersViewSettings: React.FC = () => {
                     onChange={e => {
                       const unit = e.target.value as Unit;
 
-                      ymOption({ lastUnit: unit });
+                      track('lastUnit', unit);
                       changeLastUnit(unit);
                     }}
                   >
@@ -114,7 +121,7 @@ export const NumbersViewSettings: React.FC = () => {
                       onChange={(e: CheckboxChangeEvent) => {
                         const value = e.target.checked;
 
-                        ymOption({ showMs: String(value) });
+                        track('showMs', String(value));
                         changeMsVisibility(value);
                       }}
                     >
@@ -135,7 +142,7 @@ export const NumbersViewSettings: React.FC = () => {
                       max={1000}
                       tooltipPlacement="bottom"
                       onAfterChange={value => {
-                        ymOption({ updateInterval: value as number });
+                        track('updateInterval', value as number);
                         changeUpdateInterval(value as number);
                       }}
                     />
@@ -157,7 +164,7 @@ export const NumbersViewSettings: React.FC = () => {
                     dropdownMatchSelectWidth={false}
                     value={getReadableFontName(fontFamily)}
                     onChange={(val: string) => {
-                      ymOption({ fontFamily: String(val) });
+                      track('fontFamily', String(val));
                       changeFontFamily(fonts[val]);
                     }}
                   >
@@ -179,13 +186,13 @@ export const NumbersViewSettings: React.FC = () => {
                       <ChromePicker
                         color={fontColor}
                         onChangeComplete={color => {
-                          ymOption({ fontColor: String(color.hex) });
+                          track('fontColor', String(color.hex));
                           changeFontColor(color.hex);
                         }}
                       />
                     }
                   >
-                    <Input value={fontColor} />
+                    <Input value={fontColor} disabled={true} />
                   </Dropdown>
                 }
               />
@@ -201,7 +208,7 @@ export const NumbersViewSettings: React.FC = () => {
                     onChange={value => {
                       const val = ((value as number) || 1) - 1;
 
-                      ymOption({ fontSize: val });
+                      track('fontSize', val);
                       changeFontSize(val as FontSize);
                     }}
                   />
@@ -221,13 +228,13 @@ export const NumbersViewSettings: React.FC = () => {
                       <ChromePicker
                         color={backgroundColor}
                         onChangeComplete={color => {
-                          ymOption({ backgroundColor: color.hex });
+                          track('backgroundColor', color.hex);
                           changeBackgroundColor(color.hex);
                         }}
                       />
                     }
                   >
-                    <Input value={backgroundColor} />
+                    <Input value={backgroundColor} disabled={true} />
                   </Dropdown>
                 }
               />

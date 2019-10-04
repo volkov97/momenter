@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import ym from 'react-yandex-metrika';
+import ga from 'react-ga';
 import useReactRouter from 'use-react-router';
 import queryString from 'query-string';
 
@@ -19,6 +20,12 @@ export const Countdown: React.FC = () => {
   useEffect(() => {
     if (ts) {
       ym('params', { 'countdown-param': ts });
+
+      ga.event({
+        category: 'target-page-params',
+        action: 'countdown-param',
+        value: ts,
+      });
     }
   }, []);
 

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import useReactRouter from 'use-react-router';
 import ym from 'react-yandex-metrika';
+import ga from 'react-ga';
 import queryString from 'query-string';
 
 import { BigNumberOptionsProvider } from 'src/lib/providers/BigNumberOptionsProvider';
@@ -20,6 +21,12 @@ export const Timer = () => {
   useEffect(() => {
     if (ts) {
       ym('params', { 'timer-param': ts });
+
+      ga.event({
+        category: 'url-params',
+        action: 'timer-param',
+        value: ts,
+      });
     }
   }, []);
 

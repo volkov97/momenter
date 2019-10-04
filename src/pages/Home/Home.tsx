@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import ym from 'react-yandex-metrika';
+import ga from 'react-ga';
 import queryString from 'query-string';
 import { addMinutes, format } from 'date-fns';
 import { Typography, Divider } from 'antd';
@@ -49,6 +50,12 @@ export const Home: React.FC = () => {
             ym('reachGoal', 'btn-countdown-start-press', {
               'btn-countdown-start-press-ts': performance.now() - mountedTsRef.current,
             });
+
+            ga.event({
+              category: 'btn-press-ts-from-navigate',
+              action: 'btn-countdown-start-press-ts',
+              value: performance.now() - mountedTsRef.current,
+            });
           }}
         />
       </Wrap>
@@ -73,12 +80,15 @@ export const Home: React.FC = () => {
 
             return `/calendar/${dayUrl}`;
           }}
-          onSubmit={(date: Date) => {
-            const dayUrl = format(date, 'MMMM-do-yyyy').toLowerCase();
-
+          onSubmit={() => {
             ym('reachGoal', 'btn-show-day-info-press', {
               'btn-show-day-info-press-ts': performance.now() - mountedTsRef.current,
-              'btn-show-day-info-press-value': dayUrl,
+            });
+
+            ga.event({
+              category: 'btn-press-ts-from-navigate',
+              action: 'btn-show-day-info-press-ts',
+              value: performance.now() - mountedTsRef.current,
             });
           }}
         />

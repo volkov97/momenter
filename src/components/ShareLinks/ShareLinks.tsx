@@ -1,5 +1,6 @@
 import React from 'react';
 import ym from 'react-yandex-metrika';
+import ga from 'react-ga';
 import useRouter from 'use-react-router';
 import {
   FacebookShareButton,
@@ -30,8 +31,14 @@ export const ShareLinks: React.FC<ShareLinksProps> = ({ title, description }) =>
   const ICON_SIZE = 40;
 
   const createBeforeOnClick = (network: string) => () => {
-    ym('reachGoal', 'btn-calendar-day-share-press', {
-      [`btn-calendar-day-share-${network}-press-ts`]: network,
+    ym('reachGoal', 'btn-share', {
+      ['btn-calendar-day-share']: network,
+    });
+
+    ga.event({
+      category: 'btn-share',
+      action: 'btn-calendar-day-share',
+      label: network,
     });
 
     return Promise.resolve();
