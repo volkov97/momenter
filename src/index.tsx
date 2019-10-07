@@ -9,6 +9,12 @@ import { FullscreenProvider } from './lib/providers/FullscreenProvider';
 
 import { App } from './App';
 
+ga.initialize('UA-73219202-5', {
+  debug: !['momenter-app.ru', 'momenter-app.com', 'momenter.app'].includes(
+    window.location.hostname,
+  ),
+});
+
 ReactDOM.render(
   <BrowserRouter>
     <FullscreenProvider>
@@ -30,9 +36,3 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById('root'),
 );
-
-ga.initialize('UA-73219202-5', {
-  debug: !['momenter-app.ru', 'momenter-app.com', 'momenter.app'].includes(
-    window.location.hostname,
-  ),
-});
