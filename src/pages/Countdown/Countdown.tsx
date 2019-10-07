@@ -30,13 +30,13 @@ export const Countdown: React.FC = () => {
   }, []);
 
   return (
-    <BigNumberOptionsProvider>
+    <BigNumberOptionsProvider ts={ts - Date.now()} autoplay={true}>
       <Container>
-        <NumbersViewSettings />
+        <NumbersViewSettings showControls={false} />
       </Container>
 
       <Wrap>
-        <BigNumber ts={ts - Date.now()} />
+        <BigNumber />
       </Wrap>
     </BigNumberOptionsProvider>
   );

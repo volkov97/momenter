@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimerValue, Unit } from 'react-compound-timer';
+import { Unit } from 'react-compound-timer';
 
 import { Wrap } from './TimeValue.styled';
 import { useBigNumberOptions } from 'src/lib/providers/BigNumberOptionsProvider';
@@ -12,19 +12,29 @@ const unitWeight = {
   ms: 200,
 };
 
-interface TimeValueProps {
-  value: TimerValue;
-}
+const roundSeconds = (s: number, ms: number) => {
+  if (ms >= 500 && s < 59) {
+    return s + 1;
+  }
 
-export const TimeValue: React.FC<TimeValueProps> = ({ value }) => {
-  const { lastUnit, showMs } = useBigNumberOptions();
+  return s;
+};
+
+export const TimeValue: React.FC = () => {
+  const {
+    timer: { value },
+    lastUnit,
+    showMs,
+  } = useBigNumberOptions();
 
   return (
     <Wrap>
       {(['h', 'm', 's'] as Unit[]).map(unit =>
         unitWeight[unit] <= unitWeight[lastUnit] ? (
           <span key={unit}>
-            {String(value[unit]).padStart(2, '0')}
+            {String(
+              unit === 's' && !showMs ? roundSeconds(value[unit], value.ms) : value[unit],
+            ).padStart(2, '0')}
             {unit !== 's' ? ':' : null}
           </span>
         ) : null,

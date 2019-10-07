@@ -3,6 +3,7 @@ import InputMask from 'react-input-mask';
 import { Input } from 'antd';
 
 import { Button } from 'src/components-basic/Button';
+import { transformTimeToMs } from 'src/lib/helpers/transformTimeToMs';
 
 import {
   Wrap,
@@ -18,11 +19,7 @@ const timerValues = [1, 5, 10, 15, 20, 30, 60];
 export const TimerSelector: React.FC = () => {
   const [writtenTime, setWrittenTime] = useState<string>('hh:mm:ss');
 
-  const writtenTs = useMemo(() => {
-    const time = writtenTime.replace(/[a-z]/g, '0').split(':');
-
-    return (parseInt(time[0]) * 60 * 60 + parseInt(time[1]) * 60 + parseInt(time[2])) * 1000;
-  }, [writtenTime]);
+  const writtenTs = useMemo(() => transformTimeToMs(writtenTime), [writtenTime]);
 
   return (
     <Wrap>

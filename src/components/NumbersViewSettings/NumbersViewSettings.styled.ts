@@ -47,3 +47,11 @@ export const BlockHeight = styled.div`
 
   height: 30px;
 `;
+
+export const ControlButtons = styled.div`
+  display: flex;
+`;
+
+export const ControlButton = styled.div`
+  margin-right: 10px;
+`;

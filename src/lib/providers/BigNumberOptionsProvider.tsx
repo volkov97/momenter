@@ -1,4 +1,11 @@
 import React, { useReducer, useContext, useMemo, useCallback, useEffect } from 'react';
+import {
+  useTimer,
+  TimerValue,
+  Checkpoint,
+  Direction,
+  TimerStateValues,
+} from 'react-compound-timer';
 import useReactRouter from 'use-react-router';
 import { Unit } from 'react-compound-timer';
 import queryString from 'query-string';
@@ -7,6 +14,7 @@ import { fonts } from 'src/config/fonts';
 export type FontSize = 1 | 2 | 3 | 4 | 5;
 
 interface BigNumberOptionsType {
+  initialTime: number;
   lastUnit: Unit;
   fontSize: FontSize;
   fontColor: string;
@@ -17,16 +25,18 @@ interface BigNumberOptionsType {
 }
 
 const initialBigNumberOptionsState: BigNumberOptionsType = {
+  initialTime: 10 * 60 * 1000,
   lastUnit: 'h',
   fontFamily: fonts.trebuchet,
   fontSize: 3,
   fontColor: '#000',
   backgroundColor: '#fff',
   showMs: false,
-  updateInterval: 1000,
+  updateInterval: 100,
 };
 
 interface BigNumberOptionsContextType extends BigNumberOptionsType {
+  changeInitialTime: (ts: number) => void;
   changeLastUnit: (unit: Unit) => void;
   changeFontFamily: (family: string) => void;
   changeFontSize: (size: FontSize) => void;
@@ -34,10 +44,29 @@ interface BigNumberOptionsContextType extends BigNumberOptionsType {
   changeBackgroundColor: (color: string) => void;
   changeMsVisibility: (value: boolean) => void;
   changeUpdateInterval: (value: number) => void;
+
+  timer: {
+    controls: {
+      start: () => void;
+      stop: () => void;
+      pause: () => void;
+      reset: () => void;
+      resume: () => void;
+      setTime: (time: number) => void;
+      getTime: () => number;
+      getTimerState: () => TimerStateValues;
+      setDirection: (direction: Direction) => void;
+      setLastUnit: (lastUnit: Unit) => void;
+      setTimeToUpdate: (interval: number) => void;
+      setCheckpoints: (checkpoints: Checkpoint[]) => void;
+    };
+    value: TimerValue;
+  };
 }
 
 const BigNumberOptionsContext = React.createContext<BigNumberOptionsContextType>({
   ...initialBigNumberOptionsState,
+  changeInitialTime: () => {},
   changeLastUnit: () => {},
   changeFontFamily: () => {},
   changeFontSize: () => {},
@@ -45,6 +74,31 @@ const BigNumberOptionsContext = React.createContext<BigNumberOptionsContextType>
   changeBackgroundColor: () => {},
   changeMsVisibility: () => {},
   changeUpdateInterval: () => {},
+
+  timer: {
+    controls: {
+      start: () => {},
+      stop: () => {},
+      pause: () => {},
+      reset: () => {},
+      resume: () => {},
+      setTime: () => {},
+      getTime: () => 0,
+      getTimerState: () => 'INITED',
+      setDirection: () => {},
+      setLastUnit: () => {},
+      setTimeToUpdate: () => {},
+      setCheckpoints: () => {},
+    },
+    value: {
+      d: 0,
+      h: 0,
+      m: 0,
+      s: 0,
+      ms: 0,
+      state: 'INITED',
+    },
+  },
 });
 
 export function useBigNumberOptions() {
@@ -65,7 +119,8 @@ type Action =
   | { type: 'changeFontColor'; color: string }
   | { type: 'changeBackgroundColor'; color: string }
   | { type: 'changeMsVisibility'; value: boolean }
-  | { type: 'changeUpdateInterval'; value: number };
+  | { type: 'changeUpdateInterval'; value: number }
+  | { type: 'changeInitialTime'; value: number };
 
 function bigNumberOptionsReducer(
   state: BigNumberOptionsType,
@@ -109,22 +164,68 @@ function bigNumberOptionsReducer(
         ...state,
         updateInterval: action.value,
       };
+    case 'changeInitialTime':
+      return {
+        ...state,
+        initialTime: action.value,
+      };
     default:
       console.warn('Unknown action type for bigNumberOptionsReducer');
       return state;
   }
 }
 
-export const BigNumberOptionsProvider: React.FC = ({ children }) => {
+interface BigNumberOptionsProviderProps {
+  ts?: number;
+  autoplay?: boolean;
+}
+
+export const BigNumberOptionsProvider: React.FC<BigNumberOptionsProviderProps> = ({
+  ts,
+  autoplay = false,
+  children,
+}) => {
   const { history } = useReactRouter();
   const optionsFromUrl: { options?: string } = queryString.parse(location.search);
 
+  const parsedOptionsFromUrl = optionsFromUrl.options
+    ? JSON.parse(decodeURI(optionsFromUrl.options))
+    : null;
+
   const [state, dispatch] = useReducer(
     bigNumberOptionsReducer,
-    optionsFromUrl.options
-      ? JSON.parse(decodeURI(optionsFromUrl.options))
-      : initialBigNumberOptionsState,
+    parsedOptionsFromUrl
+      ? {
+          ...parsedOptionsFromUrl,
+          initialTime:
+            parsedOptionsFromUrl.initialTime || ts || initialBigNumberOptionsState.initialTime, // for copability
+        }
+      : {
+          ...initialBigNumberOptionsState,
+          initialTime: ts || initialBigNumberOptionsState.initialTime,
+        },
   );
+
+  const timer = useTimer({
+    initialTime: ts,
+    lastUnit: state.lastUnit,
+    direction: 'backward',
+    timeToUpdate: state.updateInterval,
+    startImmediately: false,
+    checkpoints: [
+      {
+        time: 0,
+        callback: () => {
+          timer.controls.stop();
+
+          // TODO: fix negative values in react-compound-timer hook
+          setTimeout(() => {
+            timer.controls.reset();
+          }, 1000);
+        },
+      },
+    ],
+  });
 
   const changeLastUnit = useCallback(
     (unit: Unit) => dispatch({ type: 'changeLastUnit', unit }),
@@ -161,6 +262,11 @@ export const BigNumberOptionsProvider: React.FC = ({ children }) => {
     [],
   );
 
+  const changeInitialTime = useCallback(
+    (value: number) => dispatch({ type: 'changeInitialTime', value }),
+    [],
+  );
+
   useEffect(() => {
     history.push(
       `${location.pathname}?${queryString.stringify({
@@ -170,9 +276,21 @@ export const BigNumberOptionsProvider: React.FC = ({ children }) => {
     );
   }, [state]);
 
+  useEffect(() => {
+    timer.controls.setTime(state.initialTime as number);
+  }, [state.initialTime]);
+
+  useEffect(() => {
+    if (autoplay) {
+      timer.controls.start();
+    }
+  }, []);
+
   const value = useMemo(
     () => ({
+      timer,
       ...state,
+      changeInitialTime,
       changeLastUnit,
       changeFontFamily,
       changeFontSize,
@@ -181,7 +299,7 @@ export const BigNumberOptionsProvider: React.FC = ({ children }) => {
       changeMsVisibility,
       changeUpdateInterval,
     }),
-    [state],
+    [state, timer],
   );
 
   return (
