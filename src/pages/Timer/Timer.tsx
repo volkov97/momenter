@@ -11,6 +11,7 @@ import { NumbersViewSettings } from 'src/components/NumbersViewSettings';
 import { BigNumber } from 'src/components/BigNumber';
 import { Container } from 'src/components/Layout/Container';
 import { TimerControls } from 'src/components/TimerControls/TimerControls';
+import { TimerValueProvider } from 'src/lib/providers/TimerValueProvider';
 
 export const Timer = () => {
   const {
@@ -33,13 +34,15 @@ export const Timer = () => {
 
   return (
     <BigNumberOptionsProvider ts={ts}>
-      <Container>
-        <NumbersViewSettings controls={<TimerControls />} />
-      </Container>
+      <TimerValueProvider>
+        <Container>
+          <NumbersViewSettings controls={<TimerControls />} />
+        </Container>
 
-      <Wrap>
-        <BigNumber />
-      </Wrap>
+        <Wrap>
+          <BigNumber />
+        </Wrap>
+      </TimerValueProvider>
     </BigNumberOptionsProvider>
   );
 };

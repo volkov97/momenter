@@ -1,11 +1,4 @@
 import React, { useReducer, useContext, useMemo, useCallback, useEffect } from 'react';
-import {
-  useTimer,
-  TimerValue,
-  Checkpoint,
-  Direction,
-  TimerStateValues,
-} from 'react-compound-timer';
 import useReactRouter from 'use-react-router';
 import { Unit } from 'react-compound-timer';
 import queryString from 'query-string';
@@ -44,24 +37,6 @@ interface BigNumberOptionsContextType extends BigNumberOptionsType {
   changeBackgroundColor: (color: string) => void;
   changeMsVisibility: (value: boolean) => void;
   changeUpdateInterval: (value: number) => void;
-
-  timer: {
-    controls: {
-      start: () => void;
-      stop: () => void;
-      pause: () => void;
-      reset: () => void;
-      resume: () => void;
-      setTime: (time: number) => void;
-      getTime: () => number;
-      getTimerState: () => TimerStateValues;
-      setDirection: (direction: Direction) => void;
-      setLastUnit: (lastUnit: Unit) => void;
-      setTimeToUpdate: (interval: number) => void;
-      setCheckpoints: (checkpoints: Checkpoint[]) => void;
-    };
-    value: TimerValue;
-  };
 }
 
 const BigNumberOptionsContext = React.createContext<BigNumberOptionsContextType>({
@@ -74,31 +49,6 @@ const BigNumberOptionsContext = React.createContext<BigNumberOptionsContextType>
   changeBackgroundColor: () => {},
   changeMsVisibility: () => {},
   changeUpdateInterval: () => {},
-
-  timer: {
-    controls: {
-      start: () => {},
-      stop: () => {},
-      pause: () => {},
-      reset: () => {},
-      resume: () => {},
-      setTime: () => {},
-      getTime: () => 0,
-      getTimerState: () => 'INITED',
-      setDirection: () => {},
-      setLastUnit: () => {},
-      setTimeToUpdate: () => {},
-      setCheckpoints: () => {},
-    },
-    value: {
-      d: 0,
-      h: 0,
-      m: 0,
-      s: 0,
-      ms: 0,
-      state: 'INITED',
-    },
-  },
 });
 
 export function useBigNumberOptions() {
@@ -178,13 +128,11 @@ function bigNumberOptionsReducer(
 interface BigNumberOptionsProviderProps {
   ts?: number; // for timers
   targetTs?: number; // for countdowns
-  autoplay?: boolean;
 }
 
 export const BigNumberOptionsProvider: React.FC<BigNumberOptionsProviderProps> = ({
   ts,
   targetTs,
-  autoplay = false,
   children,
 }) => {
   const { history } = useReactRouter();
@@ -210,27 +158,6 @@ export const BigNumberOptionsProvider: React.FC<BigNumberOptionsProviderProps> =
     ...initialBigNumberOptionsState,
     ...(parsedOptionsFromUrl || {}),
     initialTime: getInitialTime(), // for copability
-  });
-
-  const timer = useTimer({
-    initialTime: ts,
-    lastUnit: state.lastUnit,
-    direction: 'backward',
-    timeToUpdate: state.updateInterval,
-    startImmediately: false,
-    checkpoints: [
-      {
-        time: 0,
-        callback: () => {
-          timer.controls.stop();
-
-          // TODO: fix negative values in react-compound-timer hook
-          setTimeout(() => {
-            timer.controls.reset();
-          }, 1000);
-        },
-      },
-    ],
   });
 
   const changeLastUnit = useCallback(
@@ -282,19 +209,8 @@ export const BigNumberOptionsProvider: React.FC<BigNumberOptionsProviderProps> =
     );
   }, [state]);
 
-  useEffect(() => {
-    timer.controls.setTime(state.initialTime as number);
-  }, [state.initialTime]);
-
-  useEffect(() => {
-    if (autoplay) {
-      timer.controls.start();
-    }
-  }, []);
-
   const value = useMemo(
     () => ({
-      timer,
       ...state,
       changeInitialTime,
       changeLastUnit,
@@ -305,7 +221,7 @@ export const BigNumberOptionsProvider: React.FC<BigNumberOptionsProviderProps> =
       changeMsVisibility,
       changeUpdateInterval,
     }),
-    [state, timer],
+    [state],
   );
 
   return (

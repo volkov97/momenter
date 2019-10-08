@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import ym from 'react-yandex-metrika';
 import ga from 'react-ga';
 import queryString from 'query-string';
-import { addMinutes, format } from 'date-fns';
+import { addMinutes, format, addDays } from 'date-fns';
 import { Typography, Divider } from 'antd';
 
 import { TimerSelector } from 'src/components/TimerSelector';
@@ -25,7 +25,7 @@ export const Home: React.FC = () => {
         <Typography.Paragraph>
           Just want to start a timer?
           <br />
-          Choose time form options above or write countdown time yourself.
+          Choose time form options above or write timer&apos;s initial time by yourself.
         </Typography.Paragraph>
 
         <TimerSelector />
@@ -77,8 +77,8 @@ export const Home: React.FC = () => {
         <DateSelector
           buttonText="Show info"
           showTime={false}
-          defaultDate={endOfDay(new Date())}
-          minDate={endOfDay(new Date())}
+          defaultDate={endOfDay(addDays(new Date(), 1))}
+          minDate={endOfDay(addDays(new Date(), 1))}
           linkCreator={(date: Date) => {
             const dayUrl = format(date, 'MMMM-do-yyyy').toLowerCase();
 

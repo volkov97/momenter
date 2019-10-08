@@ -8,6 +8,7 @@ import { Wrap } from './Countdown.styled';
 import { BigNumber } from 'src/components/BigNumber';
 import { Container } from 'src/components/Layout/Container';
 import { BigNumberOptionsProvider } from 'src/lib/providers/BigNumberOptionsProvider';
+import { TimerValueProvider } from 'src/lib/providers/TimerValueProvider';
 import { NumbersViewSettings } from 'src/components/NumbersViewSettings';
 import { CountdownControls } from 'src/components/CountdownControls/CountdownControls';
 
@@ -31,14 +32,16 @@ export const Countdown: React.FC = () => {
   }, []);
 
   return (
-    <BigNumberOptionsProvider targetTs={targetTs} autoplay={true}>
-      <Container>
-        <NumbersViewSettings controls={<CountdownControls />} />
-      </Container>
+    <BigNumberOptionsProvider targetTs={targetTs}>
+      <TimerValueProvider autoplay={true}>
+        <Container>
+          <NumbersViewSettings controls={<CountdownControls />} />
+        </Container>
 
-      <Wrap>
-        <BigNumber />
-      </Wrap>
+        <Wrap>
+          <BigNumber />
+        </Wrap>
+      </TimerValueProvider>
     </BigNumberOptionsProvider>
   );
 };

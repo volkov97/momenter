@@ -13,6 +13,7 @@ import {
   ControlButtons,
   ControlButton,
 } from '../NumbersViewSettings/NumbersViewSettings.styled';
+import { useTimerValue } from 'src/lib/providers/TimerValueProvider';
 
 function formatInitialTime(time: number) {
   const parts = getTimeParts(time, 'h');
@@ -22,7 +23,8 @@ function formatInitialTime(time: number) {
 }
 
 export const TimerControls: React.FC = () => {
-  const { timer, initialTime, changeInitialTime } = useBigNumberOptions();
+  const { initialTime, changeInitialTime } = useBigNumberOptions();
+  const { value, controls } = useTimerValue();
 
   return (
     <Row>
@@ -34,7 +36,7 @@ export const TimerControls: React.FC = () => {
               mask="99:99:99"
               maskPlaceholder="hh:mm:ss"
               alwaysShowMask={true}
-              disabled={timer.value.state === 'PLAYING'}
+              disabled={value.state === 'PLAYING'}
               value={formatInitialTime(initialTime)}
               onChange={e => changeInitialTime(transformTimeToMs(e.target.value))}
             >
@@ -48,16 +50,16 @@ export const TimerControls: React.FC = () => {
           title="Control buttons"
           content={
             <ControlButtons>
-              {timer.value.state === 'PLAYING' ? (
+              {value.state === 'PLAYING' ? (
                 <React.Fragment>
                   <ControlButton>
-                    <Button onClick={() => timer.controls.pause()}>Pause</Button>
+                    <Button onClick={() => controls.pause()}>Pause</Button>
                   </ControlButton>
                   <ControlButton>
                     <Button
                       onClick={() => {
-                        timer.controls.reset();
-                        timer.controls.stop();
+                        controls.reset();
+                        controls.stop();
                       }}
                     >
                       Stop
@@ -66,20 +68,20 @@ export const TimerControls: React.FC = () => {
                 </React.Fragment>
               ) : null}
 
-              {timer.value.state === 'INITED' || timer.value.state === 'STOPPED' ? (
+              {value.state === 'INITED' || value.state === 'STOPPED' ? (
                 <React.Fragment>
                   <ControlButton>
-                    <Button type="primary" onClick={() => timer.controls.start()}>
+                    <Button type="primary" onClick={() => controls.start()}>
                       Start
                     </Button>
                   </ControlButton>
                 </React.Fragment>
               ) : null}
 
-              {timer.value.state === 'PAUSED' ? (
+              {value.state === 'PAUSED' ? (
                 <React.Fragment>
                   <ControlButton>
-                    <Button onClick={() => timer.controls.resume()}>Resume</Button>
+                    <Button onClick={() => controls.resume()}>Resume</Button>
                   </ControlButton>
                 </React.Fragment>
               ) : null}

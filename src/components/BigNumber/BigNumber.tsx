@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { Wrap, TextWrap } from './BigNumber.styled';
 import { useBigNumberOptions } from 'src/lib/providers/BigNumberOptionsProvider';
 import { TimeValue } from '../TimeValue';
+import { useTimerValue } from 'src/lib/providers/TimerValueProvider';
 
 export const BigNumber: React.FC = () => {
   const {
@@ -12,15 +13,15 @@ export const BigNumber: React.FC = () => {
     lastUnit,
     updateInterval,
     fontFamily,
-    timer,
   } = useBigNumberOptions();
+  const { controls } = useTimerValue();
 
   useEffect(() => {
-    timer.controls.setLastUnit(lastUnit);
+    controls.setLastUnit(lastUnit);
   }, [lastUnit]);
 
   useEffect(() => {
-    timer.controls.setTimeToUpdate(updateInterval);
+    controls.setTimeToUpdate(updateInterval);
   }, [updateInterval]);
 
   return (
