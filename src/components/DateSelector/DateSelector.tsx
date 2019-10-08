@@ -6,6 +6,7 @@ import { DateTimePicker } from 'src/components-basic/DateTimePicker';
 
 interface CountdownOptionsProps {
   defaultDate?: Date;
+  minDate: Date;
   buttonText: string;
   showTime?: boolean;
   linkCreator: (ts: Date) => string;
@@ -14,6 +15,7 @@ interface CountdownOptionsProps {
 
 export const DateSelector: React.FC<CountdownOptionsProps> = ({
   defaultDate = new Date(),
+  minDate,
   showTime = true,
   linkCreator,
   onSubmit,
@@ -32,7 +34,12 @@ export const DateSelector: React.FC<CountdownOptionsProps> = ({
   return (
     <Wrap>
       <Column>
-        <DateTimePicker showTime={showTime} defaultDate={defaultDate} onChange={onDateChange} />
+        <DateTimePicker
+          showTime={showTime}
+          defaultDate={defaultDate}
+          minDate={minDate}
+          onChange={onDateChange}
+        />
       </Column>
 
       <Column>

@@ -14,8 +14,7 @@ import {
 } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { ChromePicker } from 'react-color';
-import { Unit, getTimeParts } from 'react-compound-timer';
-import InputMask from 'react-input-mask';
+import { Unit } from 'react-compound-timer';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import ym from 'react-yandex-metrika';
 import ga from 'react-ga';
@@ -25,16 +24,8 @@ import { useBigNumberOptions, FontSize } from 'src/lib/providers/BigNumberOption
 
 import { sortedFonts, fonts, getReadableFontName } from 'src/config/fonts';
 import { useFullscreen } from 'src/lib/providers/FullscreenProvider';
-import { transformTimeToMs } from 'src/lib/helpers/transformTimeToMs';
 
-import {
-  Wrap,
-  Row,
-  Col,
-  BlockHeight,
-  ControlButtons,
-  ControlButton,
-} from './NumbersViewSettings.styled';
+import { Wrap, Row, Col, BlockHeight } from './NumbersViewSettings.styled';
 
 function track(name: string, value: string | number) {
   ym('params', { options: { [name]: value } });
@@ -46,18 +37,11 @@ function track(name: string, value: string | number) {
   });
 }
 
-function formatInitialTime(time: number) {
-  const parts = getTimeParts(time, 'h');
-  const pad = (n: number) => String(n).padStart(2, '0');
-
-  return `${pad(parts.h)}:${pad(parts.m)}:${pad(parts.s)}`;
-}
-
 interface NumbersViewSettingsProps {
-  showControls: boolean;
+  controls: React.ReactNode;
 }
 
-export const NumbersViewSettings: React.FC<NumbersViewSettingsProps> = ({ showControls }) => {
+export const NumbersViewSettings: React.FC<NumbersViewSettingsProps> = ({ controls }) => {
   const {
     fontColor,
     changeFontColor,
@@ -72,9 +56,6 @@ export const NumbersViewSettings: React.FC<NumbersViewSettingsProps> = ({ showCo
     changeFontFamily,
     fontFamily,
     showMs,
-    timer,
-    initialTime,
-    changeInitialTime,
   } = useBigNumberOptions();
   const { enterFullscreen, isFullscreenEnabled } = useFullscreen();
   const { location } = useReactRouter();
@@ -113,70 +94,9 @@ export const NumbersViewSettings: React.FC<NumbersViewSettingsProps> = ({ showCo
           </React.Fragment>
         }
       >
-        {showControls ? (
+        {controls ? (
           <Tabs.TabPane tab="Controls" key="controls">
-            <Row>
-              <Col>
-                <Control
-                  title="Initial time"
-                  content={
-                    <InputMask
-                      mask="99:99:99"
-                      maskPlaceholder="hh:mm:ss"
-                      alwaysShowMask={true}
-                      value={formatInitialTime(initialTime)}
-                      onChange={e => changeInitialTime(transformTimeToMs(e.target.value))}
-                    >
-                      <Input />
-                    </InputMask>
-                  }
-                />
-              </Col>
-              <Col>
-                <Control
-                  title="Control buttons"
-                  content={
-                    <ControlButtons>
-                      {timer.value.state === 'PLAYING' ? (
-                        <React.Fragment>
-                          <ControlButton>
-                            <Button onClick={() => timer.controls.pause()}>Pause</Button>
-                          </ControlButton>
-                          <ControlButton>
-                            <Button
-                              onClick={() => {
-                                timer.controls.reset();
-                                timer.controls.stop();
-                              }}
-                            >
-                              Stop
-                            </Button>
-                          </ControlButton>
-                        </React.Fragment>
-                      ) : null}
-
-                      {timer.value.state === 'INITED' || timer.value.state === 'STOPPED' ? (
-                        <React.Fragment>
-                          <ControlButton>
-                            <Button type="primary" onClick={() => timer.controls.start()}>
-                              Start
-                            </Button>
-                          </ControlButton>
-                        </React.Fragment>
-                      ) : null}
-
-                      {timer.value.state === 'PAUSED' ? (
-                        <React.Fragment>
-                          <ControlButton>
-                            <Button onClick={() => timer.controls.resume()}>Resume</Button>
-                          </ControlButton>
-                        </React.Fragment>
-                      ) : null}
-                    </ControlButtons>
-                  }
-                />
-              </Col>
-            </Row>
+            {controls}
           </Tabs.TabPane>
         ) : null}
         <Tabs.TabPane tab="Units" key="units">

@@ -176,12 +176,14 @@ function bigNumberOptionsReducer(
 }
 
 interface BigNumberOptionsProviderProps {
-  ts?: number;
+  ts?: number; // for timers
+  targetTs?: number; // for countdowns
   autoplay?: boolean;
 }
 
 export const BigNumberOptionsProvider: React.FC<BigNumberOptionsProviderProps> = ({
   ts,
+  targetTs,
   autoplay = false,
   children,
 }) => {
@@ -192,19 +194,23 @@ export const BigNumberOptionsProvider: React.FC<BigNumberOptionsProviderProps> =
     ? JSON.parse(decodeURI(optionsFromUrl.options))
     : null;
 
-  const [state, dispatch] = useReducer(
-    bigNumberOptionsReducer,
-    parsedOptionsFromUrl
-      ? {
-          ...parsedOptionsFromUrl,
-          initialTime:
-            parsedOptionsFromUrl.initialTime || ts || initialBigNumberOptionsState.initialTime, // for copability
-        }
-      : {
-          ...initialBigNumberOptionsState,
-          initialTime: ts || initialBigNumberOptionsState.initialTime,
-        },
-  );
+  const getInitialTime = () => {
+    if (targetTs) {
+      return targetTs - Date.now();
+    }
+
+    if (parsedOptionsFromUrl && parsedOptionsFromUrl.initialTime) {
+      return parsedOptionsFromUrl.initialTime;
+    }
+
+    return ts || initialBigNumberOptionsState.initialTime;
+  };
+
+  const [state, dispatch] = useReducer(bigNumberOptionsReducer, {
+    ...initialBigNumberOptionsState,
+    ...(parsedOptionsFromUrl || {}),
+    initialTime: getInitialTime(), // for copability
+  });
 
   const timer = useTimer({
     initialTime: ts,

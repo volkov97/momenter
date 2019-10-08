@@ -9,30 +9,31 @@ import { BigNumber } from 'src/components/BigNumber';
 import { Container } from 'src/components/Layout/Container';
 import { BigNumberOptionsProvider } from 'src/lib/providers/BigNumberOptionsProvider';
 import { NumbersViewSettings } from 'src/components/NumbersViewSettings';
+import { CountdownControls } from 'src/components/CountdownControls/CountdownControls';
 
 export const Countdown: React.FC = () => {
   const {
     location: { search },
   } = useReactRouter();
   const queryParams = queryString.parse(search);
-  const ts = parseInt(queryParams.ts);
+  const targetTs = parseInt(queryParams.targetTs);
 
   useEffect(() => {
-    if (ts) {
-      ym('params', { 'countdown-param': ts });
+    if (targetTs) {
+      ym('params', { 'countdown-param': targetTs });
 
       ga.event({
         category: 'target-page-params',
         action: 'countdown-param',
-        value: ts,
+        value: targetTs,
       });
     }
   }, []);
 
   return (
-    <BigNumberOptionsProvider ts={ts - Date.now()} autoplay={true}>
+    <BigNumberOptionsProvider targetTs={targetTs} autoplay={true}>
       <Container>
-        <NumbersViewSettings showControls={false} />
+        <NumbersViewSettings controls={<CountdownControls />} />
       </Container>
 
       <Wrap>

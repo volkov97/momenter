@@ -10,6 +10,7 @@ import { Container } from 'src/components/Layout/Container';
 import { DateSelector } from 'src/components/DateSelector/DateSelector';
 
 import { Wrap } from './Home.styled';
+import { endOfDay } from 'date-fns/esm';
 
 export const Home: React.FC = () => {
   const mountedTsRef = useRef<number>(0);
@@ -42,9 +43,10 @@ export const Home: React.FC = () => {
 
         <DateSelector
           defaultDate={addMinutes(new Date(), 10)}
+          minDate={addMinutes(new Date(), 1)}
           buttonText="Start countdown"
           linkCreator={(date: Date) =>
-            `/countdown?${queryString.stringify({ ts: date.getTime() })}`
+            `/countdown?${queryString.stringify({ targetTs: date.getTime() })}`
           }
           onSubmit={() => {
             ym('reachGoal', 'btn-countdown-start-press', {
@@ -75,6 +77,8 @@ export const Home: React.FC = () => {
         <DateSelector
           buttonText="Show info"
           showTime={false}
+          defaultDate={endOfDay(new Date())}
+          minDate={endOfDay(new Date())}
           linkCreator={(date: Date) => {
             const dayUrl = format(date, 'MMMM-do-yyyy').toLowerCase();
 
