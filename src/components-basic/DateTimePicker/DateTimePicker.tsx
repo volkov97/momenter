@@ -4,13 +4,14 @@ import { Input } from 'antd';
 
 interface DateTimePickerProps {
   showTime?: boolean;
+  disabled?: boolean;
   minDate: Date;
   defaultDate: Date;
   onChange?: (date: Date) => void;
 }
 
 export const DateTimePicker: React.FC<DateTimePickerProps> = memo(
-  ({ showTime, minDate, defaultDate, onChange }) => {
+  ({ disabled = false, showTime, minDate, defaultDate, onChange }) => {
     const inputRef = React.useRef<Input>(null);
 
     useEffect(() => {
@@ -25,9 +26,15 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = memo(
       return () => {
         dateTimeInput.destroy();
       };
-    }, []);
+    });
 
-    return <Input ref={inputRef} />;
+    return <Input ref={inputRef} disabled={disabled} />;
   },
-  () => true,
+  (prevProps, nextProps) => {
+    if (prevProps.disabled !== nextProps.disabled) {
+      return false;
+    }
+
+    return true;
+  },
 );
