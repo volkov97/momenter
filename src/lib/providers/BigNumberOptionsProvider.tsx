@@ -151,7 +151,11 @@ export const BigNumberOptionsProvider: React.FC<BigNumberOptionsProviderProps> =
       return parsedOptionsFromUrl.initialTime;
     }
 
-    return ts || initialBigNumberOptionsState.initialTime;
+    if (typeof ts === 'number') {
+      return ts;
+    }
+
+    return initialBigNumberOptionsState.initialTime;
   };
 
   const [state, dispatch] = useReducer(bigNumberOptionsReducer, {

@@ -7,3 +7,7 @@ export const Wrap = styled.div`
     padding-top: 40px;
   }
 `;
+
+export const ControlsRow = styled.div`
+  display: flex;
+`;

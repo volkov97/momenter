@@ -65,10 +65,12 @@ export function useTimerValue() {
 
 interface TimerValueProviderProps {
   autoplay?: boolean;
+  direction?: Direction;
 }
 
 export const TimerValueProvider: React.FC<TimerValueProviderProps> = ({
   autoplay = false,
+  direction = 'backward',
   children,
 }) => {
   const { initialTime, lastUnit, updateInterval } = useBigNumberOptions();
@@ -76,7 +78,7 @@ export const TimerValueProvider: React.FC<TimerValueProviderProps> = ({
   const timer = useTimer({
     initialTime,
     lastUnit,
-    direction: 'backward',
+    direction,
     timeToUpdate: updateInterval,
     startImmediately: false,
     checkpoints: [

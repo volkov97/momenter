@@ -6,6 +6,7 @@ import { Home } from './pages/Home';
 import { Countdown } from './pages/Countdown';
 import { CalendarDayCountdown } from './pages/CalendarDayCountdown/CalendarDayCountdown';
 import { Timer } from './pages/Timer';
+import { Stopwatch } from './pages/Stopwatch';
 
 import { Header } from './components/Header/Header';
 
@@ -29,6 +30,7 @@ export const App: React.FC = () => {
           <Switch>
             <Route path="/" exact={true} component={Home} />
             <Route path="/countdown" component={Countdown} />
+            <Route path="/stopwatch" component={Stopwatch} />
             <Route path="/timer" component={Timer} />
             <Route
               exact={true}
