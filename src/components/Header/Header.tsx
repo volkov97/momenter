@@ -1,8 +1,7 @@
 import React from 'react';
-import { Avatar, Button, Typography, Spin } from 'antd';
+import { Avatar, Button, Spin } from 'antd';
 
 import { Container } from '../Layout/Container';
-import { MomenterIcon } from '../__icons__/MomenterIcon';
 
 import { useCurrentUser } from 'src/lib/providers/CurrentUserProvider';
 import { useDesktopOrHigher } from 'src/lib/hooks/useMedia';
@@ -12,7 +11,7 @@ import {
   Inner,
   EmblemWrap,
   Emblem,
-  Logo,
+  EmblemImage,
   AuthControls,
   UserWrap,
   AvatarWrap,
@@ -28,15 +27,9 @@ export const Header = () => {
       <Container>
         <Inner>
           <EmblemWrap>
-            <Logo>
-              <Emblem to="/">
-                <MomenterIcon />
-              </Emblem>
-            </Logo>
-
-            <Typography.Title level={isDesktopOrHigher ? 1 : 3}>
-              <Emblem to="/">Momenter</Emblem>
-            </Typography.Title>
+            <Emblem to="/">
+              <EmblemImage src="/logo-with-emblem.png" />
+            </Emblem>
           </EmblemWrap>
 
           <AuthControls>

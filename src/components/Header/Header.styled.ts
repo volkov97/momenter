@@ -30,15 +30,21 @@ export const Emblem = styled(Link)`
   color: #000;
 `;
 
-export const Logo = styled.div`
-  margin-right: 10px;
-
-  width: 50px;
+export const EmblemImage = styled.img`
   height: 50px;
 
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
   ${media.tablet} {
-    width: 40px;
     height: 40px;
+
+    &:hover {
+      transform: none;
+    }
   }
 `;
 
