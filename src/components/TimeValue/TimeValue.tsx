@@ -3,7 +3,7 @@ import { Unit } from 'react-compound-timer';
 
 import { Wrap } from './TimeValue.styled';
 import { useBigNumberOptions } from 'src/lib/providers/BigNumberOptionsProvider';
-import { useTimerValue } from 'src/lib/providers/TimerValueProvider';
+import { useTimeValue } from 'src/lib/hooks/useTimeValue';
 
 const unitWeight = {
   d: 600,
@@ -23,7 +23,7 @@ const roundSeconds = (s: number, ms: number) => {
 
 export const TimeValue: React.FC = () => {
   const { lastUnit, showMs } = useBigNumberOptions();
-  const { value } = useTimerValue();
+  const { value } = useTimeValue();
 
   return (
     <Wrap>

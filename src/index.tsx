@@ -9,11 +9,11 @@ import { FullscreenProvider } from './lib/providers/FullscreenProvider';
 
 import { App } from './App';
 
-ga.initialize('UA-73219202-5', {
-  debug: !['momenter-app.ru', 'momenter-app.com', 'momenter.app'].includes(
-    window.location.hostname,
-  ),
-});
+if (['momenter-app.ru', 'momenter-app.com', 'momenter.app'].includes(window.location.hostname)) {
+  ga.initialize('UA-73219202-5', {
+    debug: false,
+  });
+}
 
 ReactDOM.render(
   <BrowserRouter>

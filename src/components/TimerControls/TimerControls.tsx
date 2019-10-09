@@ -23,7 +23,7 @@ function formatInitialTime(time: number) {
 }
 
 export const TimerControls: React.FC = () => {
-  const { initialTime, changeInitialTime } = useBigNumberOptions();
+  const { ts, changeTs } = useBigNumberOptions();
   const { value, controls } = useTimerValue();
 
   return (
@@ -37,8 +37,8 @@ export const TimerControls: React.FC = () => {
               maskPlaceholder="hh:mm:ss"
               alwaysShowMask={true}
               disabled={value.state === 'PLAYING'}
-              value={formatInitialTime(initialTime)}
-              onChange={e => changeInitialTime(transformTimeToMs(e.target.value))}
+              value={formatInitialTime(ts)}
+              onChange={e => changeTs(transformTimeToMs(e.target.value))}
             >
               <Input />
             </InputMask>

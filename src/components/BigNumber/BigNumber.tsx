@@ -1,28 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { Wrap, TextWrap } from './BigNumber.styled';
 import { useBigNumberOptions } from 'src/lib/providers/BigNumberOptionsProvider';
 import { TimeValue } from '../TimeValue';
-import { useTimerValue } from 'src/lib/providers/TimerValueProvider';
 
 export const BigNumber: React.FC = () => {
-  const {
-    fontColor,
-    backgroundColor,
-    fontSize,
-    lastUnit,
-    updateInterval,
-    fontFamily,
-  } = useBigNumberOptions();
-  const { controls } = useTimerValue();
-
-  useEffect(() => {
-    controls.setLastUnit(lastUnit);
-  }, [lastUnit]);
-
-  useEffect(() => {
-    controls.setTimeToUpdate(updateInterval);
-  }, [updateInterval]);
+  const { fontColor, backgroundColor, fontSize, fontFamily } = useBigNumberOptions();
 
   return (
     <Wrap id="bigNumber" style={{ backgroundColor }}>

@@ -6,13 +6,13 @@ import { StopwatchControls } from 'src/components/StopwatchControls/StopwatchCon
 import { NumbersViewSettings } from 'src/components/NumbersViewSettings';
 import { BigNumber } from 'src/components/BigNumber';
 import { Container } from 'src/components/Layout/Container';
-import { TimerValueProvider } from 'src/lib/providers/TimerValueProvider';
 import { Wrap } from './Stopwatch.styled';
+import { StopwatchValueProvider } from 'src/lib/providers/StopwatchValueProvider';
 
 export const Stopwatch = () => {
   return (
-    <BigNumberOptionsProvider ts={0}>
-      <TimerValueProvider direction="forward">
+    <BigNumberOptionsProvider>
+      <StopwatchValueProvider>
         <Container>
           <NumbersViewSettings controls={<StopwatchControls />} />
         </Container>
@@ -20,7 +20,7 @@ export const Stopwatch = () => {
         <Wrap>
           <BigNumber />
         </Wrap>
-      </TimerValueProvider>
+      </StopwatchValueProvider>
     </BigNumberOptionsProvider>
   );
 };

@@ -9,10 +9,10 @@ import {
   ControlButtons,
   ControlButton,
 } from '../NumbersViewSettings/NumbersViewSettings.styled';
-import { useTimerValue } from 'src/lib/providers/TimerValueProvider';
+import { useStopwatchValue } from 'src/lib/providers/StopwatchValueProvider';
 
 export const StopwatchControls: React.FC = () => {
-  const { value, controls } = useTimerValue();
+  const { value, controls } = useStopwatchValue();
 
   return (
     <Row>

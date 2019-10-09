@@ -8,32 +8,32 @@ import { Wrap } from './Countdown.styled';
 import { BigNumber } from 'src/components/BigNumber';
 import { Container } from 'src/components/Layout/Container';
 import { BigNumberOptionsProvider } from 'src/lib/providers/BigNumberOptionsProvider';
-import { TimerValueProvider } from 'src/lib/providers/TimerValueProvider';
 import { NumbersViewSettings } from 'src/components/NumbersViewSettings';
 import { CountdownControls } from 'src/components/CountdownControls/CountdownControls';
+import { CountdownValueProvider } from 'src/lib/providers/CountdownValueProvider';
 
 export const Countdown: React.FC = () => {
   const {
     location: { search },
   } = useReactRouter();
   const queryParams = queryString.parse(search);
-  const targetTs = parseInt(queryParams.targetTs);
+  const ts = parseInt(queryParams.ts);
 
   useEffect(() => {
-    if (targetTs) {
-      ym('params', { 'countdown-param': targetTs });
+    if (ts) {
+      ym('params', { 'countdown-param': ts });
 
       ga.event({
         category: 'target-page-params',
         action: 'countdown-param',
-        value: targetTs,
+        value: ts,
       });
     }
   }, []);
 
   return (
-    <BigNumberOptionsProvider targetTs={targetTs}>
-      <TimerValueProvider autoplay={true}>
+    <BigNumberOptionsProvider>
+      <CountdownValueProvider>
         <Container>
           <NumbersViewSettings controls={<CountdownControls />} />
         </Container>
@@ -41,7 +41,7 @@ export const Countdown: React.FC = () => {
         <Wrap>
           <BigNumber />
         </Wrap>
-      </TimerValueProvider>
+      </CountdownValueProvider>
     </BigNumberOptionsProvider>
   );
 };

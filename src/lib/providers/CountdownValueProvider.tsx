@@ -3,38 +3,32 @@ import { useTimer, TimerValue, TimerControls } from 'react-compound-timer';
 
 import { useBigNumberOptions } from './BigNumberOptionsProvider';
 
-export interface TimerValueContextType {
+export interface CountdownValueContextType {
   controls: TimerControls;
   value: TimerValue;
 }
 
-export const TimerValueContext = React.createContext<TimerValueContextType | null>(null);
+export const CountdownValueContext = React.createContext<CountdownValueContextType | null>(null);
 
-export function useTimerValue() {
-  const context = useContext(TimerValueContext);
+export function useCountdownValue() {
+  const context = useContext(CountdownValueContext);
 
   if (!context) {
-    throw new Error(`useTimerValue must be used within a BigNumberOptionsProvider`);
+    throw new Error(`useCountdownValue must be used within a BigNumberOptionsProvider`);
   }
 
   return context;
 }
 
-export const TimerValueProvider: React.FC = ({ children }) => {
+export const CountdownValueProvider: React.FC = ({ children }) => {
   const { lastUnit, updateInterval, ts } = useBigNumberOptions();
 
   const timer = useTimer({
-    initialTime: ts,
+    initialTime: ts - Date.now(),
     lastUnit,
     direction: 'backward',
     timeToUpdate: updateInterval,
     startImmediately: false,
-    checkpoints: [
-      {
-        time: 0,
-        callback: () => timer.controls.stop(),
-      },
-    ],
   });
 
   useEffect(() => {
@@ -47,9 +41,13 @@ export const TimerValueProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (ts) {
-      timer.controls.setTime(ts);
+      timer.controls.setTime(ts - Date.now());
     }
   }, [ts]);
 
-  return <TimerValueContext.Provider value={timer}>{children}</TimerValueContext.Provider>;
+  useEffect(() => {
+    timer.controls.start();
+  }, []);
+
+  return <CountdownValueContext.Provider value={timer}>{children}</CountdownValueContext.Provider>;
 };

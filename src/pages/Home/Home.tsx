@@ -62,7 +62,7 @@ export const Home: React.FC = () => {
           minDate={addMinutes(new Date(), 1)}
           buttonText="Start countdown"
           linkCreator={(date: Date) =>
-            `/countdown?${queryString.stringify({ targetTs: date.getTime() })}`
+            `/countdown?${queryString.stringify({ ts: date.getTime() })}`
           }
           onSubmit={() => {
             ym('reachGoal', 'btn-countdown-start-press', {

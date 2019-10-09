@@ -7,7 +7,7 @@ import { fonts } from 'src/config/fonts';
 export type FontSize = 1 | 2 | 3 | 4 | 5;
 
 interface BigNumberOptionsType {
-  initialTime: number;
+  ts: number;
   lastUnit: Unit;
   fontSize: FontSize;
   fontColor: string;
@@ -18,7 +18,7 @@ interface BigNumberOptionsType {
 }
 
 const initialBigNumberOptionsState: BigNumberOptionsType = {
-  initialTime: 10 * 60 * 1000,
+  ts: 0,
   lastUnit: 'h',
   fontFamily: fonts.trebuchet,
   fontSize: 3,
@@ -29,7 +29,6 @@ const initialBigNumberOptionsState: BigNumberOptionsType = {
 };
 
 interface BigNumberOptionsContextType extends BigNumberOptionsType {
-  changeInitialTime: (ts: number) => void;
   changeLastUnit: (unit: Unit) => void;
   changeFontFamily: (family: string) => void;
   changeFontSize: (size: FontSize) => void;
@@ -37,11 +36,11 @@ interface BigNumberOptionsContextType extends BigNumberOptionsType {
   changeBackgroundColor: (color: string) => void;
   changeMsVisibility: (value: boolean) => void;
   changeUpdateInterval: (value: number) => void;
+  changeTs: (ts: number) => void;
 }
 
 const BigNumberOptionsContext = React.createContext<BigNumberOptionsContextType>({
   ...initialBigNumberOptionsState,
-  changeInitialTime: () => {},
   changeLastUnit: () => {},
   changeFontFamily: () => {},
   changeFontSize: () => {},
@@ -49,6 +48,7 @@ const BigNumberOptionsContext = React.createContext<BigNumberOptionsContextType>
   changeBackgroundColor: () => {},
   changeMsVisibility: () => {},
   changeUpdateInterval: () => {},
+  changeTs: () => {},
 });
 
 export function useBigNumberOptions() {
@@ -70,7 +70,7 @@ type Action =
   | { type: 'changeBackgroundColor'; color: string }
   | { type: 'changeMsVisibility'; value: boolean }
   | { type: 'changeUpdateInterval'; value: number }
-  | { type: 'changeInitialTime'; value: number };
+  | { type: 'changeTs'; value: number };
 
 function bigNumberOptionsReducer(
   state: BigNumberOptionsType,
@@ -114,10 +114,10 @@ function bigNumberOptionsReducer(
         ...state,
         updateInterval: action.value,
       };
-    case 'changeInitialTime':
+    case 'changeTs':
       return {
         ...state,
-        initialTime: action.value,
+        ts: action.value,
       };
     default:
       console.warn('Unknown action type for bigNumberOptionsReducer');
@@ -125,43 +125,16 @@ function bigNumberOptionsReducer(
   }
 }
 
-interface BigNumberOptionsProviderProps {
-  ts?: number; // for timers
-  targetTs?: number; // for countdowns
-}
-
-export const BigNumberOptionsProvider: React.FC<BigNumberOptionsProviderProps> = ({
-  ts,
-  targetTs,
-  children,
-}) => {
-  const { history } = useReactRouter();
-  const optionsFromUrl: { options?: string } = queryString.parse(location.search);
-
-  const parsedOptionsFromUrl = optionsFromUrl.options
-    ? JSON.parse(decodeURI(optionsFromUrl.options))
-    : null;
-
-  const getInitialTime = () => {
-    if (targetTs) {
-      return targetTs - Date.now();
-    }
-
-    if (parsedOptionsFromUrl && parsedOptionsFromUrl.initialTime) {
-      return parsedOptionsFromUrl.initialTime;
-    }
-
-    if (typeof ts === 'number') {
-      return ts;
-    }
-
-    return initialBigNumberOptionsState.initialTime;
-  };
+export const BigNumberOptionsProvider: React.FC = ({ children }) => {
+  const { history, location } = useReactRouter();
+  const urlParams: { ts?: string; options?: string } = queryString.parse(location.search);
+  const { options: optionsJSONString, ts } = urlParams;
+  const parsedOptionsFromUrl = optionsJSONString ? JSON.parse(decodeURI(optionsJSONString)) : {};
 
   const [state, dispatch] = useReducer(bigNumberOptionsReducer, {
     ...initialBigNumberOptionsState,
-    ...(parsedOptionsFromUrl || {}),
-    initialTime: getInitialTime(), // for copability
+    ...(ts ? { ts: parseInt(ts) } : {}), // from url param directly
+    ...parsedOptionsFromUrl,
   });
 
   const changeLastUnit = useCallback(
@@ -199,10 +172,7 @@ export const BigNumberOptionsProvider: React.FC<BigNumberOptionsProviderProps> =
     [],
   );
 
-  const changeInitialTime = useCallback(
-    (value: number) => dispatch({ type: 'changeInitialTime', value }),
-    [],
-  );
+  const changeTs = useCallback((value: number) => dispatch({ type: 'changeTs', value }), []);
 
   useEffect(() => {
     history.push(
@@ -216,7 +186,7 @@ export const BigNumberOptionsProvider: React.FC<BigNumberOptionsProviderProps> =
   const value = useMemo(
     () => ({
       ...state,
-      changeInitialTime,
+      changeTs,
       changeLastUnit,
       changeFontFamily,
       changeFontSize,
