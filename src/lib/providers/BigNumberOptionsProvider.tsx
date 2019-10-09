@@ -125,7 +125,14 @@ function bigNumberOptionsReducer(
   }
 }
 
-export const BigNumberOptionsProvider: React.FC = ({ children }) => {
+interface BigNumberOptionsProviderProps {
+  forcedInitialOptions?: Partial<BigNumberOptionsType>;
+}
+
+export const BigNumberOptionsProvider: React.FC<BigNumberOptionsProviderProps> = ({
+  forcedInitialOptions = {},
+  children,
+}) => {
   const { history, location } = useReactRouter();
   const urlParams: { ts?: string; options?: string } = queryString.parse(location.search);
   const { options: optionsJSONString, ts } = urlParams;
@@ -133,6 +140,7 @@ export const BigNumberOptionsProvider: React.FC = ({ children }) => {
 
   const [state, dispatch] = useReducer(bigNumberOptionsReducer, {
     ...initialBigNumberOptionsState,
+    ...forcedInitialOptions,
     ...(ts ? { ts: parseInt(ts) } : {}), // from url param directly
     ...parsedOptionsFromUrl,
   });

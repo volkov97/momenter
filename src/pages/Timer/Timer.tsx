@@ -33,7 +33,7 @@ export const Timer = () => {
   }, []);
 
   return (
-    <BigNumberOptionsProvider>
+    <BigNumberOptionsProvider forcedInitialOptions={{ ts: 10 * 60 * 1000 }}>
       <TimerValueProvider>
         <Container>
           <NumbersViewSettings controls={<TimerControls />} />

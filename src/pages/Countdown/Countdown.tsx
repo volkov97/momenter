@@ -32,7 +32,7 @@ export const Countdown: React.FC = () => {
   }, []);
 
   return (
-    <BigNumberOptionsProvider>
+    <BigNumberOptionsProvider forcedInitialOptions={{ ts: Date.now() + 10 * 60 * 1000 }}>
       <CountdownValueProvider>
         <Container>
           <NumbersViewSettings controls={<CountdownControls />} />
