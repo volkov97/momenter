@@ -67,8 +67,6 @@ export const CountdownControls: React.FC = memo(() => {
                         if (targetDate) {
                           changeTs(targetDate.getTime());
                         }
-
-                        controls.start();
                       }}
                     >
                       Start

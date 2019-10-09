@@ -71,7 +71,13 @@ export const TimerControls: React.FC = () => {
               {value.state === 'INITED' || value.state === 'STOPPED' ? (
                 <React.Fragment>
                   <ControlButton>
-                    <Button type="primary" onClick={() => controls.start()}>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        controls.reset();
+                        controls.start();
+                      }}
+                    >
                       Start
                     </Button>
                   </ControlButton>

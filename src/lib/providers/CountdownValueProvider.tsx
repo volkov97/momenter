@@ -42,6 +42,8 @@ export const CountdownValueProvider: React.FC = ({ children }) => {
   useEffect(() => {
     if (ts) {
       timer.controls.setTime(ts - Date.now());
+
+      timer.controls.start();
     }
   }, [ts]);
 
