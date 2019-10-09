@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import ym from 'react-yandex-metrika';
 import ga from 'react-ga';
 import queryString from 'query-string';
-import { endOfDay, addMinutes, format, addDays } from 'date-fns';
+import { startOfMinute, startOfDay, addMinutes, format, addDays } from 'date-fns';
 import { Typography, Divider } from 'antd';
 
 import { TimerSelector } from 'src/components/TimerSelector';
@@ -58,8 +58,8 @@ export const Home: React.FC = () => {
         </Typography.Paragraph>
 
         <DateSelector
-          defaultDate={addMinutes(new Date(), 10)}
-          minDate={addMinutes(new Date(), 1)}
+          defaultDate={startOfMinute(addMinutes(new Date(), 10))}
+          minDate={startOfMinute(addMinutes(new Date(), 1))}
           buttonText="Start countdown"
           linkCreator={(date: Date) =>
             `/countdown?${queryString.stringify({ ts: date.getTime() })}`
@@ -93,8 +93,8 @@ export const Home: React.FC = () => {
         <DateSelector
           buttonText="Show info"
           showTime={false}
-          defaultDate={endOfDay(addDays(new Date(), 1))}
-          minDate={endOfDay(addDays(new Date(), 1))}
+          defaultDate={startOfDay(addDays(new Date(), 1))}
+          minDate={startOfDay(addDays(new Date(), 1))}
           linkCreator={(date: Date) => {
             const dayUrl = format(date, 'MMMM-do-yyyy').toLowerCase();
 

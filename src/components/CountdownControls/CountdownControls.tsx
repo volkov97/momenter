@@ -1,5 +1,6 @@
 import React, { memo, useCallback, useState } from 'react';
 import { Button } from 'antd';
+import { addMinutes, startOfMinute } from 'date-fns';
 
 import { useBigNumberOptions } from 'src/lib/providers/BigNumberOptionsProvider';
 import { useCountdownValue } from 'src/lib/providers/CountdownValueProvider';
@@ -20,7 +21,13 @@ export const CountdownControls: React.FC = memo(() => {
 
   const [targetDate, setTargetDate] = useState<Date>();
 
-  const onDateChange = useCallback(date => setTargetDate(date), []);
+  const minDate = startOfMinute(addMinutes(new Date(), 1));
+  const defaultDate = startOfMinute(new Date(ts));
+
+  const onDateChange = useCallback(
+    (date: Date) => setTargetDate(date.getTime() > minDate.getTime() ? date : minDate),
+    [minDate],
+  );
 
   return (
     <Row>
@@ -29,9 +36,9 @@ export const CountdownControls: React.FC = memo(() => {
           title="Countdown target"
           content={
             <DateTimePicker
-              defaultDate={new Date(ts)}
+              defaultDate={defaultDate > minDate ? defaultDate : minDate}
               disabled={value.state === 'PLAYING'}
-              minDate={new Date()}
+              minDate={minDate}
               showTime={true}
               onChange={onDateChange}
             />
@@ -65,6 +72,13 @@ export const CountdownControls: React.FC = memo(() => {
                       type="primary"
                       onClick={() => {
                         if (targetDate) {
+                          if (targetDate.getTime() === ts) {
+                            controls.setTime(ts - Date.now());
+                            controls.start();
+
+                            return;
+                          }
+
                           changeTs(targetDate.getTime());
                         }
                       }}

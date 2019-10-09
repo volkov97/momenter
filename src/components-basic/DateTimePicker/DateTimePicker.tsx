@@ -1,6 +1,7 @@
 import React, { useEffect, memo } from 'react';
 import flatpickr from 'flatpickr';
 import { Input } from 'antd';
+import { startOfMinute, startOfDay } from 'date-fns/esm';
 
 interface DateTimePickerProps {
   showTime?: boolean;
@@ -16,10 +17,11 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = memo(
 
     useEffect(() => {
       const dateTimeInput = flatpickr((inputRef.current as Input).input, {
-        defaultDate: defaultDate || new Date(),
+        defaultDate: defaultDate || (showTime ? startOfMinute(Date.now()) : startOfDay(Date.now())),
         minDate,
         enableTime: showTime,
-        onChange: dates => onChange && onChange(dates[0]),
+        onChange: dates =>
+          onChange && onChange(showTime ? startOfMinute(dates[0]) : startOfDay(dates[0])),
         dateFormat: showTime ? 'd.m.Y H:i' : 'd.m.Y',
       });
 

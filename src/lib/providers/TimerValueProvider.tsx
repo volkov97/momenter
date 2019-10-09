@@ -46,7 +46,7 @@ export const TimerValueProvider: React.FC = ({ children }) => {
   }, [updateInterval]);
 
   useEffect(() => {
-    if (ts) {
+    if (typeof ts === 'number') {
       timer.controls.setTime(ts);
     }
   }, [ts]);
