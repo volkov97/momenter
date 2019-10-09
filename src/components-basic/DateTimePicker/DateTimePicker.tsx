@@ -16,14 +16,20 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = memo(
     const inputRef = React.useRef<Input>(null);
 
     useEffect(() => {
+      const defaultDateResult =
+        defaultDate || (showTime ? startOfMinute(Date.now()) : startOfDay(Date.now()));
+
       const dateTimeInput = flatpickr((inputRef.current as Input).input, {
-        defaultDate: defaultDate || (showTime ? startOfMinute(Date.now()) : startOfDay(Date.now())),
+        defaultDate: defaultDateResult,
         minDate,
         enableTime: showTime,
         onChange: dates =>
           onChange && onChange(showTime ? startOfMinute(dates[0]) : startOfDay(dates[0])),
         dateFormat: showTime ? 'd.m.Y H:i' : 'd.m.Y',
       });
+
+      onChange &&
+        onChange(showTime ? startOfMinute(defaultDateResult) : startOfDay(defaultDateResult));
 
       return () => {
         dateTimeInput.destroy();
